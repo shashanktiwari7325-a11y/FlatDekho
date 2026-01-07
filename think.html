@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flat Connect – Demo</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg,#667eea,#764ba2); margin:0; padding:0; min-height:100vh; display:flex; justify-content:center; align-items:flex-start; overflow-x:hidden; padding-top:30px; }
+  .container { max-width:900px; margin:40px auto; background:white; padding:30px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.15); position:relative; }
+  .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+  .logo { display:flex; flex-direction:column; }
+  .logo h1 { margin:0; font-size:24px; display:flex; align-items:center; gap:8px; }
+  .logo p { margin:0; font-size:14px; color:#555; }
+  .madeby { font-size:13px; color:#333; }
+  input, button { width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ccc; font-size:16px; transition: all 0.3s ease; }
+  input:focus { border-color:#2563eb; box-shadow:0 0 5px rgba(37,99,235,0.5); outline:none; }
+  button { background:linear-gradient(135deg,#2563eb,#1d4ed8); color:white; cursor:pointer; border:none; position:relative; overflow:hidden; }
+  button:hover { transform:translateY(-2px); box-shadow:0 4px 10px rgba(37,99,235,0.3); }
+  button::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition:left 0.5s;}
+  button:hover::before { left:100%; }
+  .hidden { display:none; }
+  .flat-card { border:1px solid #ddd; padding:15px; margin:10px 0; border-radius:8px; background:#f9f9f9; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .flat-card:hover { transform:translateY(-5px); box-shadow:0 4px 15px rgba(0,0,0,0.1); }
+  .flat-card img { width:100%; height:auto; border-radius:8px; margin-bottom:10px; }
+  .interested-users { margin-top:10px; padding:10px; background:#e0f7fa; border-radius:5px; }
+  .interested-users p { margin:5px 0; }
+  .login-container { max-width:420px; background:rgba(255,255,255,0.15); backdrop-filter: blur(12px); color:white; padding:30px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.2); position:relative; }
+  .otp-input { text-align:center; font-size:18px; letter-spacing:2px; }
+  .success-message { color:#22c55e; text-align:center; margin-top:10px; }
+  .error-message { color:#dc2626; text-align:center; margin-top:10px; }
+</style>
+</head>
+<body>
+
+<!-- Login Page -->
+<div class="login-container" id="loginPage">
+  <div class="header">
+    <div class="logo">
+      <h1><i class="fas fa-home"></i> FlatDekho</h1>
+      <p>Find a flat buddy, split the rent</p>
+    </div>
+    <div class="madeby">Made by Shashank Tiwari</div>
+  </div>
+
+  <h2>Login (Demo)</h2>
+  <input type="text" id="name" placeholder="Your name" />
+  <input type="text" id="phone" placeholder="WhatsApp number" />
+  <button onclick="sendOTP()" id="sendOtpBtn">Send OTP</button>
+
+  <div id="otpSection" class="hidden">
+    <input type="text" id="otp" placeholder="Enter OTP (1234)" class="otp-input" maxlength="4" />
+    <button onclick="verifyOTP()" id="verifyBtn">Verify & Login</button>
+  </div>
+
+  <div id="message" class="hidden"></div>
+</div>
+
+<!-- Search Page -->
+<div class="container hidden" id="searchPage">
+  <div class="header">
+    <div class="logo">
+      <h1><i class="fas fa-home"></i> FlatDekho</h1>
+      <p>Find a flat buddy, split the rent</p>
+    </div>
+    <div class="madeby">Made by Shashank Tiwari</div>
+  </div>
+
+  <nav style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <div></div>
+    <div>
+      <button onclick="showWatchlist()" style="width:auto;padding:8px 12px;margin-right:10px;"><i class="fas fa-star"></i> Watchlist</button>
+      <button onclick="logout()" style="width:auto;padding:8px 12px;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+  </nav>
+
+  <h2><i class="fas fa-search"></i> Search Flats</h2>
+  <p>Welcome: <span id="userName"></span></p>
+  <input type="text" id="location" placeholder="Location (e.g., Alpha 1)" />
+  <button onclick="searchFlats()" id="searchBtn">Search</button>
+
+  <div id="result"></div>
+
+  <div id="watchlist" class="hidden">
+    <h3>Your Watchlist (Flats You're Interested In)</h3>
+    <div id="watchlistContent"></div>
+  </div>
+</div>
+
+<script>
+const flatsData = {
+  "Alpha 1":[
+    {id:1,type:"1BHK",price:5000,description:"Cozy 1BHK flat near market",image:"https://paramountgroup.co.in/upload/412b21794fe05956f7de1182026a19e9.jpg"},
+    {id:2,type:"2BHK",price:8000,description:"Spacious 2BHK flat with balcony",image:"https://images.nobroker.in/images/8a9f8803910d2f4001910d74e41b273e/8a9f8803910d2f4001910d74e41b273e_51108_579351_medium.jpg"},
+    {id:3,type:"1BHK",price:5500,description:"Modern 1BHK with gym access",image:"https://th.bing.com/th/id/R.53b99d369125e3befc97d14ce8970838?rik=2wxGXPYOXW%2bgqg&riu=http%3a%2f%2fwww.parasnoida.in%2fblogs%2fwp-content%2fuploads%2f2022%2f09%2f1.jpg&ehk=EpF2Vi%2bn6NkieyTkrl4xj7KRhcgKrg1WXdMp8OWYY9c%3d&risl=&pid=ImgRaw&r=0"}
+  ]
+};
+
+function showMessage(text,type){
+  const msg=document.getElementById('message');
+  msg.className=type==='error'?'error-message':'success-message';
+  msg.innerText=text;
+  msg.classList.remove('hidden');
+  setTimeout(()=>msg.classList.add('hidden'),3000);
+}
+
+function sendOTP(){
+  const name=document.getElementById('name').value.trim();
+  const phone=document.getElementById('phone').value.trim();
+  if(!name||!phone){showMessage("Enter name and phone","error");return;}
+  showMessage("Demo OTP sent: 1234","success");
+  document.getElementById('otpSection').classList.remove('hidden');
+}
+
+function verifyOTP(){
+  const otp=document.getElementById('otp').value.trim();
+  if(otp!=="1234"){showMessage("Invalid OTP","error");return;}
+  const name=document.getElementById('name').value.trim();
+  const phone=document.getElementById('phone').value.trim();
+  localStorage.setItem("userName",name);
+  localStorage.setItem("userPhone",phone);
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('searchPage').classList.remove('hidden');
+  document.getElementById('userName').innerText=name;
+}
+
+function searchFlats(){
+  const loc=document.getElementById('location').value.trim().toLowerCase();
+  const resultDiv=document.getElementById('result');
+  resultDiv.innerHTML='';
+  document.getElementById('watchlist').classList.add('hidden');
+
+  if(loc==='alpha 1'){
+    flatsData["Alpha 1"].forEach(flat=>{
+      const card=document.createElement('div'); card.className='flat-card';
+      card.innerHTML=`
+        <img src="${flat.image}" alt="${flat.type}" />
+        <h3>${flat.type} - ₹${flat.price}/month</h3>
+        <p>${flat.description}</p>
+        <button onclick="addInterest(${flat.id})">Express Interest</button>
+      `;
+      const interests=getInterests();
+      if(interests[flat.id] && interests[flat.id].length>0){
+        const div=document.createElement('div'); div.className='interested-users';
+        div.innerHTML='<strong>Interested Users:</strong>';
+        interests[flat.id].forEach(u=>{
+          div.innerHTML+=`<p>${u.name} - <a href="https://wa.me/${u.phone}" target="_blank">WhatsApp</a></p>`;
+        });
+        card.appendChild(div);
+      }
+      resultDiv.appendChild(card);
+    });
+  }else{ resultDiv.innerHTML="<p>No flats found. Try 'Alpha 1'</p>"; }
+}
+
+function addInterest(flatId){
+  const name=localStorage.getItem('userName'); const phone=localStorage.getItem('userPhone');
+  if(!name||!phone){alert("Login first");return;}
+  const interests=getInterests();
+  if(!interests[flatId]) interests[flatId]=[];
+  if(interests[flatId].some(u=>u.phone===phone)){showMessage("Already expressed interest","error");return;}
+  interests[flatId].push({name,phone}); localStorage.setItem('interests',JSON.stringify(interests));
+  showMessage("Interest added","success"); searchFlats();
+}
+
+function getInterests(){ return localStorage.getItem('interests')?JSON.parse(localStorage.getItem('interests')):{} }
+
+function showWatchlist(){
+  const content=document.getElementById('watchlistContent'); content.innerHTML='';
+  document.getElementById('result').innerHTML='';
+  document.getElementById('watchlist').classList.remove('hidden');
+  const phone=localStorage.getItem('userPhone'); const interests=getInterests();
+  let has=false;
+  for(const fid in interests){
+    if(interests[fid].some(u=>u.phone===phone)){
+      has=true;
+      const flat=flatsData["Alpha 1"].find(f=>f.id==fid);
+      if(flat){
+        const card=document.createElement('div'); card.className='flat-card';
+        card.innerHTML=`
+          <img src="${flat.image}" alt="${flat.type}" />
+          <h3>${flat.type} - ₹${flat.price}/month</h3>
+          <p>${flat.description}</p>
+          <p>You are interested in this flat.</p>
+        `;
+        content.appendChild(card);
+      }
+    }
+  }
+  if(!has) content.innerHTML="<p>You have not expressed interest in any flats yet.</p>";
+}
+
+function logout(){ localStorage.clear(); location.reload(); }
+
+if(localStorage.getItem('userName')){
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('searchPage').classList.remove('hidden');
+  document.getElementById('userName').innerText=localStorage.getItem('userName');
+}
+</script>
+
+</body>
+</html>
