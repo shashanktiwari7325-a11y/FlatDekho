@@ -60,6 +60,22 @@ Secure OTP login will be enabled shortly.
     <input type="text" id="otp" placeholder="Enter OTP" class="otp-input" maxlength="4" />
     <button onclick="verifyOTP()" id="verifyBtn">Verify & Login</button>
   </div>
+<div class="login-container" id="loginPage">
+
+  <input type="text" id="name" placeholder="Your name" />
+  <input type="text" id="phone" placeholder="WhatsApp number" />
+
+  <button onclick="sendOTP()">Send OTP</button>
+
+  <div id="otpSection" class="hidden">
+    <input type="text" id="otp" placeholder="Enter OTP" />
+    <button onclick="verifyOTP()">Verify & Login</button>
+  </div>
+
+  <!-- ✅ STEP 4 ka ye hi part -->
+  <div id="recaptcha-container"></div>
+
+</div>
 
   <div id="message" class="hidden"></div>
 </div>
@@ -209,7 +225,7 @@ if(localStorage.getItem('userName')){
   <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<div id="recaptcha-container"></div>
+
 
 <script>
   const firebaseConfig = {
@@ -230,6 +246,7 @@ if(localStorage.getItem('userName')){
 
 </body>
 </html>
+
 
 
 
