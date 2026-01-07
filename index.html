@@ -1,16 +1,10 @@
-<!DOCTYPE html>  
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="google-site-verification" content="YWNYqpNddGN0ZMP-cfBsv-J6QRUni4dPmFxd0ELCMfw" />
-<!-- SEO code -->
-<title>FlatDekho – Find Flatmates & Split Rent in Delhi</title>
-<meta name="description" content="FlatDekho helps you find flatmates in Noida, share rent easily, and find flats hassle-free.">
-
-
+<title>Flat Connect – Demo</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
-
   body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg,#667eea,#764ba2); margin:0; padding:0; min-height:100vh; display:flex; justify-content:center; align-items:flex-start; overflow-x:hidden; padding-top:30px; }
   .container { max-width:900px; margin:40px auto; background:white; padding:30px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.15); position:relative; }
   .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
@@ -48,21 +42,15 @@
     <div class="madeby">Made by Shashank Tiwari</div>
   </div>
 
-  <h2>Login</h2>
+  <h2>Login (Demo)</h2>
   <input type="text" id="name" placeholder="Your name" />
   <input type="text" id="phone" placeholder="WhatsApp number" />
   <button onclick="sendOTP()" id="sendOtpBtn">Send OTP</button>
-  <p style="font-size:12px;text-align:center;opacity:0.9;margin-top:8px;">
-Secure OTP login will be enabled shortly.
-</p>
 
-<div id="otpSection" class="hidden">
-    <input type="text" id="otp" placeholder="Enter OTP" class="otp-input" maxlength="4" />
+  <div id="otpSection" class="hidden">
+    <input type="text" id="otp" placeholder="Enter OTP (1234)" class="otp-input" maxlength="4" />
     <button onclick="verifyOTP()" id="verifyBtn">Verify & Login</button>
   </div>
-<div id="recaptcha-container"></div>
-
-</div>
 
   <div id="message" class="hidden"></div>
 </div>
@@ -119,13 +107,13 @@ function sendOTP(){
   const name=document.getElementById('name').value.trim();
   const phone=document.getElementById('phone').value.trim();
   if(!name||!phone){showMessage("Enter name and phone","error");return;}
-  showMessage("OTP service coming soon","success");
+  showMessage("Demo OTP sent: 1234","success");
   document.getElementById('otpSection').classList.remove('hidden');
 }
 
 function verifyOTP(){
   const otp=document.getElementById('otp').value.trim();
-  {showMessage("OTP verification coming soon","error");return;}
+  if(otp!=="1234"){showMessage("Invalid OTP","error");return;}
   const name=document.getElementById('name').value.trim();
   const phone=document.getElementById('phone').value.trim();
   localStorage.setItem("userName",name);
@@ -209,95 +197,6 @@ if(localStorage.getItem('userName')){
   document.getElementById('userName').innerText=localStorage.getItem('userName');
 }
 </script>
-  <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
-
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyBtIB9JvmEuh6QPeQ_AwQJeysHYpRwEkfs",
-    authDomain: "flatdekho-f5e63.firebaseapp.com",
-    projectId: "flatdekho-f5e63",
-    storageBucket: "flatdekho-f5e63.firebasestorage.app",
-    messagingSenderId: "535758991972",
-    appId: "1:535758991972:web:30e0b9f550228e5241a571"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-
-  // ✅ reCAPTCHA (invisible)
-  window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
-    'recaptcha-container',
-    { size: 'invisible' }
-  );
-
-  // ✅ REAL SEND OTP
-  function sendOTP(){
-    const phone = document.getElementById("phone").value.trim();
-
-    if(!phone){
-      showMessage("Enter phone number","error");
-      return;
-    }
-
-    auth.signInWithPhoneNumber(phone, window.recaptchaVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        showMessage("OTP sent","success");
-        document.getElementById("otpSection").classList.remove("hidden");
-      })
-      .catch((error) => {
-        showMessage(error.message,"error");
-      });
-  }
-
-  // ✅ REAL VERIFY OTP
-  function verifyOTP(){
-    const otp = document.getElementById("otp").value.trim();
-
-    if(!otp){
-      showMessage("Enter OTP","error");
-      return;
-    }
-
-    window.confirmationResult.confirm(otp)
-      .then(() => {
-        const name = document.getElementById("name").value.trim();
-        const phone = document.getElementById("phone").value.trim();
-
-        localStorage.setItem("userName", name);
-        localStorage.setItem("userPhone", phone);
-
-        document.getElementById("loginPage").classList.add("hidden");
-        document.getElementById("searchPage").classList.remove("hidden");
-        document.getElementById("userName").innerText = name;
-
-        showMessage("Login successful","success");
-      })
-      .catch(() => {
-        showMessage("Wrong OTP","error");
-      });
-  }
-</script>
-
-
-</script>
-
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
