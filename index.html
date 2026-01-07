@@ -60,20 +60,7 @@ Secure OTP login will be enabled shortly.
     <input type="text" id="otp" placeholder="Enter OTP" class="otp-input" maxlength="4" />
     <button onclick="verifyOTP()" id="verifyBtn">Verify & Login</button>
   </div>
-<div class="login-container" id="loginPage">
-
-  <input type="text" id="name" placeholder="Your name" />
-  <input type="text" id="phone" placeholder="WhatsApp number" />
-
-  <button onclick="sendOTP()">Send OTP</button>
-
-  <div id="otpSection" class="hidden">
-    <input type="text" id="otp" placeholder="Enter OTP" />
-    <button onclick="verifyOTP()">Verify & Login</button>
-  </div>
-
-  <!-- ✅ STEP 4 ka ye hi part -->
-  <div id="recaptcha-container"></div>
+<div id="recaptcha-container"></div>
 
 </div>
 
@@ -234,71 +221,74 @@ if(localStorage.getItem('userName')){
     projectId: "flatdekho-f5e63",
     storageBucket: "flatdekho-f5e63.firebasestorage.app",
     messagingSenderId: "535758991972",
-    appId: "1:535758991972:web:30e0b9f550228e5241a571",
-    measurementId: "G-KMGKPKFGS4"
+    appId: "1:535758991972:web:30e0b9f550228e5241a571"
   };
 
-  // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
-  <script>
+
+  // ✅ reCAPTCHA (invisible)
   window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
     'recaptcha-container',
     { size: 'invisible' }
   );
+
+  // ✅ REAL SEND OTP
   function sendOTP(){
-  const phone = document.getElementById("phone").value.trim();
+    const phone = document.getElementById("phone").value.trim();
 
-  if(!phone){
-    showMessage("Enter phone number","error");
-    return;
+    if(!phone){
+      showMessage("Enter phone number","error");
+      return;
+    }
+
+    auth.signInWithPhoneNumber(phone, window.recaptchaVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        showMessage("OTP sent","success");
+        document.getElementById("otpSection").classList.remove("hidden");
+      })
+      .catch((error) => {
+        showMessage(error.message,"error");
+      });
   }
 
-  firebase.auth()
-    .signInWithPhoneNumber(phone, window.recaptchaVerifier)
-    .then((confirmationResult) => {
-      window.confirmationResult = confirmationResult;
-      showMessage("OTP sent","success");
-      document.getElementById("otpSection").classList.remove("hidden");
-    })
-    .catch((error) => {
-      showMessage(error.message,"error");
-    });
-}
-function verifyOTP(){
-  const otp = document.getElementById("otp").value.trim();
+  // ✅ REAL VERIFY OTP
+  function verifyOTP(){
+    const otp = document.getElementById("otp").value.trim();
 
-  if(!otp){
-    showMessage("Enter OTP","error");
-    return;
+    if(!otp){
+      showMessage("Enter OTP","error");
+      return;
+    }
+
+    window.confirmationResult.confirm(otp)
+      .then(() => {
+        const name = document.getElementById("name").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+
+        localStorage.setItem("userName", name);
+        localStorage.setItem("userPhone", phone);
+
+        document.getElementById("loginPage").classList.add("hidden");
+        document.getElementById("searchPage").classList.remove("hidden");
+        document.getElementById("userName").innerText = name;
+
+        showMessage("Login successful","success");
+      })
+      .catch(() => {
+        showMessage("Wrong OTP","error");
+      });
   }
-
-  window.confirmationResult.confirm(otp)
-    .then((result) => {
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-
-      localStorage.setItem("userName", name);
-      localStorage.setItem("userPhone", phone);
-
-      document.getElementById("loginPage").classList.add("hidden");
-      document.getElementById("searchPage").classList.remove("hidden");
-      document.getElementById("userName").innerText = name;
-
-      showMessage("Login successful","success");
-    })
-    .catch(() => {
-      showMessage("Wrong OTP","error");
-    });
-}
-
 </script>
+
 
 </script>
 
 
 </body>
 </html>
+
 
 
 
