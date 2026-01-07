@@ -206,9 +206,30 @@ if(localStorage.getItem('userName')){
   document.getElementById('userName').innerText=localStorage.getItem('userName');
 }
 </script>
+  <!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBtIB9JvmEuh6QPeQ_AwQJeysHYpRwEkfs",
+    authDomain: "flatdekho-f5e63.firebaseapp.com",
+    projectId: "flatdekho-f5e63",
+    storageBucket: "flatdekho-f5e63.firebasestorage.app",
+    messagingSenderId: "535758991972",
+    appId: "1:535758991972:web:30e0b9f550228e5241a571",
+    measurementId: "G-KMGKPKFGS4"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+</script>
+
 
 </body>
 </html>
+
 
 
 
