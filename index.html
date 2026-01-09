@@ -35,6 +35,10 @@
 <!-- Firebase Authentication -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
+  <!-- Firebase Firestore (ADD THIS) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  
 </head>
 <body>
 
@@ -53,11 +57,21 @@
 </div>
 
   <h2>Login</h2>
- <div id="signinForm">
-  <input type="email" id="loginEmail" placeholder="Gmail" />
-  <input type="password" id="loginPassword" placeholder="Password" />
-  <button onclick="signIn()">Login</button>
+
+<div id="signinForm">
+  <input type="email" id="loginEmail" placeholder="Enter Gmail" required />
+  <input type="password" id="loginPassword" placeholder="Enter Password" required />
+
+  <button onclick="signIn()">Sign In</button>
+
+  <!-- Forgot Password -->
+  <p style="text-align:center;margin-top:10px;">
+    <a href="#" onclick="forgotPassword()" style="color:#2563eb;font-size:14px;">
+      Forgot Password?
+    </a>
+  </p>
 </div>
+
 
 <!-- 🔹 Sign Up Form -->
 <div id="signupForm" class="hidden">
@@ -197,11 +211,22 @@ function logout() {
   });
 }
 
-if(localStorage.getItem('userName')){
-  document.getElementById('loginPage').classList.add('hidden');
-  document.getElementById('searchPage').classList.remove('hidden');
-  document.getElementById('userName').innerText=localStorage.getItem('userName');
-}
+auth.onAuthStateChanged((user) => {
+  if(user){
+    db.collection("users").doc(user.uid).get().then((doc)=>{
+      if(doc.exists){
+        const data = doc.data();
+        localStorage.setItem("userName", data.name);
+        localStorage.setItem("userPhone", data.phone);
+
+        document.getElementById('loginPage').classList.add('hidden');
+        document.getElementById('searchPage').classList.remove('hidden');
+        document.getElementById('userName').innerText = data.name;
+      }
+    });
+  }
+});
+
 </script>
 <script>
    const firebaseConfig = {
@@ -216,6 +241,7 @@ if(localStorage.getItem('userName')){
   // 🔹 Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
+const db = firebase.firestore();
 
   </script>
 <script>
@@ -247,47 +273,88 @@ function signUp(){
     return;
   }
 
- auth.createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
+  auth.createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
 
-        localStorage.setItem("userName", name);
-        localStorage.setItem("userPhone", phone);
-
-        alert("Account created! Please Sign In");
-        showSignIn();
-      })
-      .catch((error) => {
-        alert(error.message);
+      // 🔥 Firestore me profile save
+      return db.collection("users").doc(user.uid).set({
+        name: name,
+        phone: phone,
+        email: email,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-  }
+    })
+    .then(() => {
+      alert("Sign Up successful! Please Login.");
+      showSignIn(); // signup → login screen
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+}
+
 // 🔹 Sign In
 function signIn(){
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value.trim();
 
-    auth.signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
+  if(!email || !password){
+    alert("Email and password required");
+    return;
+  }
 
-        const savedUser = JSON.parse(localStorage.getItem("flatDekhoUser"));
-        if(savedUser){
-          localStorage.setItem("userName", savedUser.name);
-          localStorage.setItem("userPhone", savedUser.phone);
-          document.getElementById('userName').innerText = savedUser.name;
-        }
+  auth.signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+
+      return db.collection("users").doc(user.uid).get();
+    })
+    .then((doc) => {
+      if(doc.exists){
+        const data = doc.data();
+
+        localStorage.setItem("userName", data.name);
+        localStorage.setItem("userPhone", data.phone);
 
         document.getElementById('loginPage').classList.add('hidden');
         document.getElementById('searchPage').classList.remove('hidden');
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  }
+        document.getElementById('userName').innerText = data.name;
+      } else {
+        alert("Profile not found");
+      }
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+}
+
 
 </script>
+  <script>
+
+   function forgotPassword(){
+  const email = document.getElementById('loginEmail').value.trim();
+
+  if(!email){
+    alert("Please enter your Gmail first");
+    return;
+  }
+
+  auth.sendPasswordResetEmail(email)
+    .then(() => {
+      alert("Password reset email sent. Check your inbox.");
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+}
+ 
+    
+  </script>
 </body>
 </html>
+
 
 
 
