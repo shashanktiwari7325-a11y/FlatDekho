@@ -246,7 +246,13 @@ const db = firebase.firestore();
 
   </script>
 <script>
+function clearInputs(){
+  document.querySelectorAll(
+    "#signinForm input, #signupForm input"
+  ).forEach(input => input.value = "");
+}
 
+  
   // 🔹 Tab Switching
 function showSignIn(){
   document.getElementById('signinForm').classList.remove('hidden');
@@ -256,11 +262,13 @@ function showSignIn(){
 }
 
 function showSignUp(){
+  clearInputs(); // 🔥 ADD THIS
   document.getElementById('signinForm').classList.add('hidden');
   document.getElementById('signupForm').classList.remove('hidden');
   document.getElementById('signUpTab').classList.add('active');
   document.getElementById('signInTab').classList.remove('active');
 }
+
 
 // 🔹 Sign Up
 function signUp(){
@@ -268,6 +276,16 @@ function signUp(){
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value.trim();
+
+  if(!name || !phone || !email || !password){
+    alert("All fields are required");
+    return;
+  }
+
+  if(!email.includes("@") || !email.includes(".")){
+    alert("Please enter a valid email address");
+    return;
+  }
 
   auth.createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
@@ -282,15 +300,18 @@ function signUp(){
     })
     .then(() => {
       alert("Account created successfully. Please Sign In.");
+      showSignIn();   // ✅ YAHI SAHI JAGAH HAI
     })
     .catch((error) => {
       if(error.code === "auth/email-already-in-use"){
         alert("Account already exists. Please Sign In.");
+        showSignIn();
       } else {
         alert(error.message);
       }
     });
 }
+
 
 // 🔹 Sign In
 function signIn(){
@@ -352,6 +373,7 @@ function signIn(){
   </script>
 </body>
 </html>
+
 
 
 
