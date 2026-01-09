@@ -35,8 +35,6 @@
 <!-- Firebase Authentication -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
-  <!-- Firebase Firestore (ADD THIS) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   
 </head>
@@ -212,21 +210,7 @@ function logout() {
   });
 }
 
-auth.onAuthStateChanged((user) => {
-  if(user){
-    db.collection("users").doc(user.uid).get().then((doc)=>{
-      if(doc.exists){
-        const data = doc.data();
-        localStorage.setItem("userName", data.name);
-        localStorage.setItem("userPhone", data.phone);
 
-        document.getElementById('loginPage').classList.add('hidden');
-        document.getElementById('searchPage').classList.remove('hidden');
-        document.getElementById('userName').innerText = data.name;
-      }
-    });
-  }
-});
 
 </script>
 <script>
@@ -242,7 +226,7 @@ auth.onAuthStateChanged((user) => {
   // 🔹 Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-const db = firebase.firestore();
+
 
   </script>
 <script>
@@ -282,25 +266,15 @@ function signUp(){
     return;
   }
 
-  if(!email.includes("@") || !email.includes(".")){
-    alert("Please enter a valid email address");
-    return;
-  }
-
   auth.createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-
-      return db.collection("users").doc(user.uid).set({
-        name: name,
-        phone: phone,
-        email: email,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-    })
     .then(() => {
+      // 🔥 Save locally (NO Firestore)
+      localStorage.setItem("userName", name);
+      localStorage.setItem("userPhone", phone);
+      localStorage.setItem("userEmail", email);
+
       alert("Account created successfully. Please Sign In.");
-      showSignIn();   // ✅ YAHI SAHI JAGAH HAI
+      showSignIn();
     })
     .catch((error) => {
       if(error.code === "auth/email-already-in-use"){
@@ -324,24 +298,11 @@ function signIn(){
   }
 
   auth.signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-
-      return db.collection("users").doc(user.uid).get();
-    })
-    .then((doc) => {
-      if(doc.exists){
-        const data = doc.data();
-
-        localStorage.setItem("userName", data.name);
-        localStorage.setItem("userPhone", data.phone);
-
-        document.getElementById('loginPage').classList.add('hidden');
-        document.getElementById('searchPage').classList.remove('hidden');
-        document.getElementById('userName').innerText = data.name;
-      } else {
-        alert("Profile not found");
-      }
+    .then(() => {
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('searchPage').classList.remove('hidden');
+      document.getElementById('userName').innerText =
+        localStorage.getItem("userName");
     })
     .catch((error) => {
       alert(error.message);
@@ -373,6 +334,7 @@ function signIn(){
   </script>
 </body>
 </html>
+
 
 
 
