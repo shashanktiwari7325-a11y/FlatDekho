@@ -24,8 +24,18 @@
   .flat-card img { width:100%; height:auto; border-radius:8px; margin-bottom:10px; }
   .interested-users { margin-top:10px; padding:10px; background:#e0f7fa; border-radius:5px; }
   .interested-users p { margin:5px 0; }
-  .login-container { max-width:420px; background:rgba(255,255,255,0.15); backdrop-filter: blur(12px); color:white; padding:30px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.2); position:relative; }
-  .otp-input { text-align:center; font-size:18px; letter-spacing:2px; }
+ .login-container{
+  width:900px;
+  max-width:95%;
+  height:520px;
+  display:flex;
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 30px 60px rgba(0,0,0,0.35);
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(14px);
+}
+}
   .success-message { color:#22c55e; text-align:center; margin-top:10px; }
   .error-message { color:#dc2626; text-align:center; margin-top:10px; }
 </style>
@@ -42,44 +52,54 @@
 
 <!-- Login Page -->
 <div class="login-container" id="loginPage">
-  <div class="header">
-    <div class="logo">
-      <h1><i class="fas fa-home"></i> FlatDekho</h1>
-      <p>Find a flat buddy, split the rent</p>
+
+  <!-- LEFT FORM -->
+  <div class="auth-left">
+
+    <div class="header">
+      <div class="logo">
+        <h1><i class="fas fa-home"></i> FlatDekho</h1>
+        <p>Find a flat buddy, split the rent</p>
+      </div>
+      <div class="madeby">Made by Shashank Tiwari</div>
     </div>
-    <div class="madeby">Made by Shashank Tiwari</div>
+
+    <div class="tabs" style="display:flex; gap:10px; margin-bottom:15px;">
+      <button id="signInTab" onclick="showSignIn()">Sign In</button>
+      <button id="signUpTab" onclick="showSignUp()">Sign Up</button>
+    </div>
+
+    <h2>Login</h2>
+
+    <div id="signinForm">
+      <input type="email" id="loginEmail" placeholder="Enter Gmail" />
+      <input type="password" id="loginPassword" placeholder="Enter Password" />
+      <button onclick="signIn()">Sign In</button>
+
+      <p style="text-align:center;">
+        <a href="#" onclick="forgotPassword()" style="font-size:14px;">
+          Forgot Password?
+        </a>
+      </p>
+    </div>
+
+    <div id="signupForm" class="hidden">
+      <input type="text" id="name" placeholder="Full Name" />
+      <input type="text" id="phone" placeholder="WhatsApp Number" />
+      <input type="email" id="email" placeholder="Gmail" />
+      <input type="password" id="password" placeholder="Create Password" />
+      <button onclick="signUp()">Create Account</button>
+    </div>
+
   </div>
-<div class="tabs" style="display:flex; justify-content:center; gap:10px; margin-bottom:20px;">
-  <button id="signInTab" onclick="showSignIn()">Sign In</button>
-  <button id="signUpTab" onclick="showSignUp()">Sign Up</button>
-</div>
 
-  <h2>Login</h2>
-
-<div id="signinForm">
-  <input type="email" id="loginEmail" placeholder="Enter Gmail" required />
-  <input type="password" id="loginPassword" placeholder="Enter Password" required />
-
-  <button onclick="signIn()">Sign In</button>
-
-  <!-- Forgot Password -->
-  <p style="text-align:center;margin-top:10px;">
-    <a href="#" onclick="forgotPassword()" style="color:#2563eb;font-size:14px;">
-      Forgot Password?
-    </a>
-  </p>
-</div>
-
-
-<!-- 🔹 Sign Up Form -->
-<div id="signupForm" class="hidden">
-  <input type="text" id="name" placeholder="Full Name" />
-  <input type="text" id="phone" placeholder="WhatsApp Number" />
-  <input type="email" id="email" placeholder="Gmail" />
-  <input type="password" id="password" placeholder="Create Password" />
-  <button type="button" onclick="signUp()">Create Account</button>
+  <!-- RIGHT IMAGE -->
+  <div class="auth-right">
+    <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d" />
+  </div>
 
 </div>
+
   <div id="message" class="hidden"></div>
 </div>
 
@@ -334,6 +354,7 @@ function signIn(){
   </script>
 </body>
 </html>
+
 
 
 
