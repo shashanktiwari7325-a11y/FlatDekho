@@ -7,12 +7,21 @@
 <style>
   body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg,#667eea,#764ba2); margin:0; padding:0; min-height:100vh; display:flex; justify-content:center; align-items:flex-start; overflow-x:hidden; padding-top:30px; }
   .container { max-width:900px; margin:40px auto; background:white; padding:30px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.15); position:relative; }
-  .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+  .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; }
   .logo { display:flex; flex-direction:column; }
   .logo h1 { margin:0; font-size:24px; display:flex; align-items:center; gap:8px; }
   .logo p { margin:0; font-size:14px; color:#555; }
   .madeby { font-size:13px; color:#333; }
-  input, button { width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ccc; font-size:16px; transition: all 0.3s ease; }
+  input, button {
+  width:100%;
+  padding:14px;
+  margin:14px 0;
+  border-radius:10px;
+  border:1px solid #ccc;
+  font-size:16px;
+  transition: all 0.3s ease;
+}
+
   input:focus { border-color:#2563eb; box-shadow:0 0 5px rgba(37,99,235,0.5); outline:none; }
   button { background:linear-gradient(135deg,#2563eb,#1d4ed8); color:white; cursor:pointer; border:none; position:relative; overflow:hidden; }
   button:hover { transform:translateY(-2px); box-shadow:0 4px 10px rgba(37,99,235,0.3); }
@@ -23,11 +32,11 @@
   .flat-card:hover { transform:translateY(-5px); box-shadow:0 4px 15px rgba(0,0,0,0.1); }
   .flat-card img { width:100%; height:auto; border-radius:8px; margin-bottom:10px; }
   .interested-users { margin-top:10px; padding:10px; background:#e0f7fa; border-radius:5px; }
-  .interested-users p { margin:5px 0; }
+  .interested-users p { margin:10px 0 22px; }
  .login-container{
   width:900px;
   max-width:95%;
-  height:520px;
+  height:580px;
   display:flex;
   border-radius:22px;
   overflow:hidden;
@@ -56,6 +65,7 @@
   <!-- LEFT FORM -->
   <div class="auth-left">
 
+
     <div class="header">
       <div class="logo">
         <h1><i class="fas fa-home"></i> FlatDekho</h1>
@@ -64,7 +74,7 @@
       <div class="madeby">Made by Shashank Tiwari</div>
     </div>
 
-    <div class="tabs" style="display:flex; gap:10px; margin-bottom:15px;">
+    <div class="tabs" style="display:flex; gap:10px; margin-bottom:25px;">
       <button id="signInTab" onclick="showSignIn()">Sign In</button>
       <button id="signUpTab" onclick="showSignUp()">Sign Up</button>
     </div>
@@ -355,12 +365,3 @@ function signIn(){
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
