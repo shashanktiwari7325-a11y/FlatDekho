@@ -71,6 +71,9 @@
   font-size:14px;
   border-radius:8px;
 }
+#searchPage {
+  width: 100%;
+}
 
 </style>
   <!-- Firebase App (core SDK) -->
@@ -282,6 +285,22 @@ function logout() {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
+<script>
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    // User already logged in
+    document.getElementById('loginPage').classList.add('hidden');
+    document.getElementById('searchPage').classList.remove('hidden');
+
+    document.getElementById('userName').innerText =
+      localStorage.getItem("userName") || "User";
+  } else {
+    // User not logged in
+    document.getElementById('searchPage').classList.add('hidden');
+    document.getElementById('loginPage').classList.remove('hidden');
+  }
+});
+</script>
 
   </script>
 <script>
@@ -389,3 +408,4 @@ function signIn(){
   </script>
 </body>
 </html>
+
