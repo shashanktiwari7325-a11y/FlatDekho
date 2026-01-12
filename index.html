@@ -101,11 +101,10 @@ body.auth {
 
   
 </head>
-<body class="auth">
-
+<body>
 
 <!-- Login Page -->
-<div class="container hidden" id="searchPage">
+<div class="login-container" id="loginPage">
 
 
   <!-- LEFT FORM -->
@@ -307,25 +306,18 @@ const auth = firebase.auth();
 // ✅ AUTH STATE CONTROLLER (ONLY ONE PLACE)
 auth.onAuthStateChanged((user) => {
 
-  const loginPage = document.getElementById('loginPage');
-  const searchPage = document.getElementById('searchPage');
+  document.body.classList.remove("auth"); // pehle hatao
+
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('searchPage').classList.add('hidden');
 
   if (user) {
-    // ✅ LOGIN SUCCESS
-    document.body.classList.remove("auth");
-
-    loginPage.classList.add('hidden');
-    searchPage.classList.remove('hidden');
-
+    document.getElementById('searchPage').classList.remove('hidden');
     document.getElementById('userName').innerText =
       localStorage.getItem("userName") || "User";
-
   } else {
-    // ✅ LOGOUT / NOT LOGGED IN
-    document.body.classList.add("auth");
-
-    searchPage.classList.add('hidden');
-    loginPage.classList.remove('hidden');
+    document.body.classList.add("auth"); // ✅ sirf login pe center
+    document.getElementById('loginPage').classList.remove('hidden');
   }
 });
 
@@ -436,10 +428,4 @@ function signIn(){
     
   </script>
 </body>
-</html>
-
-
-
-
-
-
+</html> 
