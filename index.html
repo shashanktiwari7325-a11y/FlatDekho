@@ -272,37 +272,34 @@ function logout() {
 
 </script>
 <script>
-   const firebaseConfig = {
-    apiKey: "AIzaSyAee6rfxqMkItbkoypdtuKPoeO7Ps8R1vw",
-    authDomain: "flatdekhoo-93711.firebaseapp.com",
-    projectId: "flatdekhoo-93711",
-    storageBucket: "flatdekhoo-93711.firebasestorage.app",
-    messagingSenderId: "913473111932",
-    appId: "1:913473111932:web:08c413b4baa15c851286f9",
-    measurementId: "G-49HSRF59D0"
-  };
-  // 🔹 Initialize Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyAee6rfxqMkItbkoypdtuKPoeO7Ps8R1vw",
+  authDomain: "flatdekhoo-93711.firebaseapp.com",
+  projectId: "flatdekhoo-93711",
+  storageBucket: "flatdekhoo-93711.firebasestorage.app",
+  messagingSenderId: "913473111932",
+  appId: "1:913473111932:web:08c413b4baa15c851286f9",
+  measurementId: "G-49HSRF59D0"
+};
+
+// 🔹 Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-<script>
+// 🔹 AUTH STATE FIX (VERY IMPORTANT)
 auth.onAuthStateChanged((user) => {
   if (user) {
-    // User already logged in
     document.getElementById('loginPage').classList.add('hidden');
     document.getElementById('searchPage').classList.remove('hidden');
-
     document.getElementById('userName').innerText =
       localStorage.getItem("userName") || "User";
   } else {
-    // User not logged in
     document.getElementById('searchPage').classList.add('hidden');
     document.getElementById('loginPage').classList.remove('hidden');
   }
 });
 </script>
-
-  </script>
+  
 <script>
 function clearInputs(){
   document.querySelectorAll(
@@ -408,4 +405,5 @@ function signIn(){
   </script>
 </body>
 </html>
+
 
