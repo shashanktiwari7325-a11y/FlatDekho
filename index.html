@@ -283,29 +283,27 @@ const firebaseConfig = {
   measurementId: "G-49HSRF59D0"
 };
 
-// 🔹 Initialize Firebase
+// ✅ Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-// 🔹 AUTH STATE FIX (VERY IMPORTANT)
-<script>
+// ✅ AUTH STATE CONTROLLER (ONLY ONE PLACE)
 auth.onAuthStateChanged((user) => {
 
-  // 🔒 pehle dono hide
+  // pehle dono hide
   document.getElementById('loginPage').classList.add('hidden');
   document.getElementById('searchPage').classList.add('hidden');
 
   if (user) {
-    // ✅ logged in
     document.getElementById('searchPage').classList.remove('hidden');
     document.getElementById('userName').innerText =
       localStorage.getItem("userName") || "User";
   } else {
-    // ❌ not logged in
     document.getElementById('loginPage').classList.remove('hidden');
   }
 });
 </script>
+
 
   
 <script>
@@ -412,6 +410,7 @@ function signIn(){
   </script>
 </body>
 </html>
+
 
 
 
