@@ -5,7 +5,23 @@
 <title>FlatDekho</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
-  body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg,#667eea,#764ba2); margin:0; padding:0; min-height:100vh; display:flex; justify-content:center; align-items:flex-start; overflow-x:hidden; padding-top:30px; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg,#667eea,#764ba2);
+  margin:0;
+  padding:0;
+  min-height:100vh;
+  overflow-x:hidden;
+  padding-top:30px;
+}
+
+/* ✅ sirf login page ke liye */
+body.auth {
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+}
+
   .container { max-width:900px; margin:40px auto; background:white; padding:30px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.15); position:relative; }
   .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; }
   .logo { display:flex; flex-direction:column; }
@@ -88,7 +104,7 @@
 <body>
 
 <!-- Login Page -->
-<div class="login-container hidden" id="loginPage">
+<div class="login-container" id="loginPage">
 
 
   <!-- LEFT FORM -->
@@ -290,7 +306,8 @@ const auth = firebase.auth();
 // ✅ AUTH STATE CONTROLLER (ONLY ONE PLACE)
 auth.onAuthStateChanged((user) => {
 
-  // pehle dono hide
+  document.body.classList.remove("auth"); // pehle hatao
+
   document.getElementById('loginPage').classList.add('hidden');
   document.getElementById('searchPage').classList.add('hidden');
 
@@ -299,9 +316,11 @@ auth.onAuthStateChanged((user) => {
     document.getElementById('userName').innerText =
       localStorage.getItem("userName") || "User";
   } else {
+    document.body.classList.add("auth"); // ✅ sirf login pe center
     document.getElementById('loginPage').classList.remove('hidden');
   }
 });
+
 </script>
 
 
@@ -410,6 +429,7 @@ function signIn(){
   </script>
 </body>
 </html>
+
 
 
 
