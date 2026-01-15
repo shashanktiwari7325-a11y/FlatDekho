@@ -240,8 +240,14 @@ function searchFlats(){
 }
 
 function addInterest(flatId){
-  const name=localStorage.getItem('userName'); const phone=localStorage.getItem('userPhone');
-  if(!name||!phone){alert("Login first");return;}
+ const name = localStorage.getItem('userName');
+const phone = localStorage.getItem('userPhone') || "0000000000"; // fallback
+
+if(!name){
+  alert("Login first");
+  return;
+}
+
   const interests=getInterests();
   if(!interests[flatId]) interests[flatId]=[];
   if(interests[flatId].some(u=>u.phone===phone)){showMessage("Already expressed interest","error");return;}
@@ -394,11 +400,23 @@ function signIn(){
   }
 
   auth.signInWithEmailAndPassword(email, password)
-    .then(() => {
-     
-      document.getElementById('userName').innerText =
-        localStorage.getItem("userName");
-    })
+    ..then(() => {
+
+  if(!localStorage.getItem("userPhone")){
+    const phone = prompt("Enter your WhatsApp number");
+    if(phone){
+      localStorage.setItem("userPhone", phone);
+    } else {
+      alert("Phone number required to express interest");
+    }
+  }
+
+  document.body.classList.remove("auth");
+
+  document.getElementById('userName').innerText =
+    localStorage.getItem("userName") || "User";
+})
+
     .catch((error) => {
       alert(error.message);
     });
@@ -429,6 +447,7 @@ function signIn(){
   </script>
 </body>
 </html> 
+
 
 
 
