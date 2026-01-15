@@ -240,20 +240,41 @@ function searchFlats(){
 }
 
 function addInterest(flatId){
- const name = localStorage.getItem('userName');
-const phone = localStorage.getItem('userPhone') || "0000000000"; // fallback
 
-if(!name){
-  alert("Login first");
-  return;
+  // 🔐 Firebase login check (REAL AUTH)
+  if (!auth.currentUser) {
+    alert("Login first");
+    return;
+  }
+
+  const name = localStorage.getItem('userName') || "User";
+  let phone = localStorage.getItem('userPhone');
+
+  // 📱 phone missing ho to ek baar puch lo
+  if(!phone){
+    phone = prompt("Enter WhatsApp number to continue");
+    if(!phone){
+      alert("Phone number required");
+      return;
+    }
+    localStorage.setItem("userPhone", phone);
+  }
+
+  const interests = getInterests();
+  if(!interests[flatId]) interests[flatId] = [];
+
+  if(interests[flatId].some(u => u.phone === phone)){
+    showMessage("Already expressed interest","error");
+    return;
+  }
+
+  interests[flatId].push({ name, phone });
+  localStorage.setItem('interests', JSON.stringify(interests));
+
+  showMessage("Interest added","success");
+  searchFlats();
 }
 
-  const interests=getInterests();
-  if(!interests[flatId]) interests[flatId]=[];
-  if(interests[flatId].some(u=>u.phone===phone)){showMessage("Already expressed interest","error");return;}
-  interests[flatId].push({name,phone}); localStorage.setItem('interests',JSON.stringify(interests));
-  showMessage("Interest added","success"); searchFlats();
-}
 
 function getInterests(){ return localStorage.getItem('interests')?JSON.parse(localStorage.getItem('interests')):{} }
 
@@ -447,6 +468,7 @@ function signIn(){
   </script>
 </body>
 </html> 
+
 
 
 
