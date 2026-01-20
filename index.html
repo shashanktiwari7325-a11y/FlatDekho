@@ -2,194 +2,206 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>FlatDekho</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlatDekho | Premium Living</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 <style>
+/* Aesthetic Variables */
+:root {
+  --primary: #6366f1;
+  --secondary: #a855f7;
+  --bg-dark: #0f172a;
+  --glass: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --text-white: #f8fafc;
+  --text-dim: #94a3b8;
+}
+
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: linear-gradient(135deg,#667eea,#764ba2);
-  margin:0;
-  padding:0;
-  min-height:100vh;
-  overflow-x:hidden;
-  padding-top:30px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: radial-gradient(circle at top right, #1e1b4b, #0f172a);
+  color: var(--text-white);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* ✅ sirf login page ke liye */
+/* Auth Center Alignment */
 body.auth {
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 0;
 }
 
-  .container { max-width:900px; margin:40px auto; background:white; padding:30px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.15); position:relative; }
-  .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; }
-  .logo { display:flex; flex-direction:column; }
-  .logo h1 { margin:0; font-size:24px; display:flex; align-items:center; gap:8px; }
-  .logo p { margin:0; font-size:14px; color:#555; }
-  .madeby { font-size:13px; color:#333; }
-  input, button {
-  width:100%;
-  padding:14px;
-  margin:14px 0;
-  border-radius:10px;
-  border:1px solid #ccc;
-  font-size:16px;
+/* Container & Glassmorphism */
+.container { 
+  max-width: 900px; 
+  margin: 40px auto; 
+  background: var(--glass); 
+  padding: 40px; 
+  border-radius: 24px; 
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+  position: relative; 
+}
+
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.logo h1 { margin: 0; font-size: 26px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 10px; }
+.logo h1 i { color: var(--primary); }
+.logo p { margin: 0; font-size: 14px; color: var(--text-dim); }
+.madeby { font-size: 12px; color: var(--text-dim); opacity: 0.7; }
+
+/* Input Styles */
+input {
+  width: 100%;
+  padding: 14px;
+  margin: 12px 0;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  background: rgba(0,0,0,0.2);
+  color: white;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+input:focus { border-color: var(--primary); outline: none; background: rgba(0,0,0,0.3); }
+
+/* Button Aesthetic */
+button {
+  width: 100%;
+  padding: 14px;
+  margin: 14px 0;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
   transition: all 0.3s ease;
 }
 
-  input:focus { border-color:#2563eb; box-shadow:0 0 5px rgba(37,99,235,0.5); outline:none; }
-  button { background:linear-gradient(135deg,#2563eb,#1d4ed8); color:white; cursor:pointer; border:none; position:relative; overflow:hidden; }
-  button:hover { transform:translateY(-2px); box-shadow:0 4px 10px rgba(37,99,235,0.3); }
-  button::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition:left 0.5s;}
-  button:hover::before { left:100%; }
-  .hidden { display:none; }
-  .flat-card { border:1px solid #ddd; padding:15px; margin:10px 0; border-radius:8px; background:#f9f9f9; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-  .flat-card:hover { transform:translateY(-5px); box-shadow:0 4px 15px rgba(0,0,0,0.1); }
-  .flat-card img { width:100%; height:auto; border-radius:8px; margin-bottom:10px; }
-  .interested-users { margin-top:10px; padding:10px; background:#e0f7fa; border-radius:5px; }
-  .interested-users p { margin:10px 0 22px; }
- .login-container{
-  width:1000px;
-  max-width:95%;
-  height:650px;
-  display:flex;
-  border-radius:22px;
-  overflow:hidden;
-  box-shadow:0 30px 60px rgba(0,0,0,0.35);
-  background:rgba(255,255,255,0.15);
-  backdrop-filter:blur(14px);
-}
-.auth-left{
-  width:45%;
-  padding:50px 40px;
-  background:rgba(255,255,255,0.9);
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
+button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4); }
+
+/* Login Container */
+.login-container {
+  width: 1000px; max-width: 95%; height: 620px;
+  display: flex; border-radius: 28px; overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
 }
 
-.auth-right{
-  width:55%;
+.auth-left { width: 45%; padding: 50px; background: rgba(15, 23, 42, 0.8); display: flex; flex-direction: column; justify-content: center; }
+.auth-right { width: 55%; overflow: hidden; }
+.auth-right img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+
+/* Flat Cards */
+.flat-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--glass-border);
+  padding: 20px; border-radius: 20px; margin: 20px 0;
+  transition: 0.3s ease;
 }
 
-.auth-right img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+.flat-card:hover { transform: scale(1.02); background: rgba(255,255,255,0.07); }
+.flat-card img { width: 100%; height: 250px; object-fit: cover; border-radius: 16px; margin-bottom: 15px; }
 
-  .success-message { color:#22c55e; text-align:center; margin-top:10px; }
-  .error-message { color:#dc2626; text-align:center; margin-top:10px; }
-  .tabs button{
-  width:auto;
-  padding:10px 18px;
-  font-size:14px;
-  border-radius:8px;
-}
-#searchPage {
-  width: 100%;
-}
+.interested-users { margin-top: 15px; padding: 15px; background: rgba(99, 102, 241, 0.1); border-radius: 12px; border-left: 4px solid var(--primary); }
+.interested-users p { margin: 5px 0; font-size: 14px; }
+.interested-users a { color: #4ade80; text-decoration: none; font-weight: bold; }
 
+.tabs button { width: auto; padding: 10px 20px; background: transparent; border: 1px solid var(--glass-border); }
+.tabs button.active { background: var(--primary); border-color: var(--primary); }
+
+.hidden { display: none !important; }
+.success-message { color: #4ade80; text-align: center; margin: 10px; }
+.error-message { color: #f87171; text-align: center; margin: 10px; }
 </style>
-  <!-- Firebase App (core SDK) -->
+
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-
-<!-- Firebase Authentication -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
-
-  
 </head>
+
 <body>
 
-<!-- Login Page -->
 <div class="login-container" id="loginPage">
-
-
-  <!-- LEFT FORM -->
   <div class="auth-left">
-
     <div class="header">
       <div class="logo">
         <h1><i class="fas fa-home"></i> FlatDekho</h1>
         <p>Find a flat buddy, split the rent</p>
       </div>
-      <div class="madeby">Made by Shashank Tiwari</div>
     </div>
 
     <div class="tabs" style="display:flex; gap:10px; margin-bottom:25px;">
-      <button id="signInTab" onclick="showSignIn()">Sign In</button>
+      <button id="signInTab" class="active" onclick="showSignIn()">Sign In</button>
       <button id="signUpTab" onclick="showSignUp()">Sign Up</button>
     </div>
 
-    <h2>Login</h2>
-
     <div id="signinForm">
+      <h2 style="margin-bottom: 20px;">Welcome Back</h2>
       <input type="email" id="loginEmail" placeholder="Enter Gmail" />
       <input type="password" id="loginPassword" placeholder="Enter Password" />
       <button onclick="signIn()">Sign In</button>
-
-      <p style="text-align:center;">
-        <a href="#" onclick="forgotPassword()" style="font-size:14px;">
-          Forgot Password?
-        </a>
-      </p>
+      <p style="text-align:center;"><a href="#" onclick="forgotPassword()" style="font-size:14px; color: var(--text-dim); text-decoration:none;">Forgot Password?</a></p>
     </div>
 
     <div id="signupForm" class="hidden">
+      <h2 style="margin-bottom: 20px;">Create Account</h2>
       <input type="text" id="name" placeholder="Full Name" />
       <input type="text" id="phone" placeholder="WhatsApp Number" />
       <input type="email" id="email" placeholder="Gmail" />
       <input type="password" id="password" placeholder="Create Password" />
       <button onclick="signUp()">Create Account</button>
     </div>
-
+    <div class="madeby" style="margin-top:20px;">Made by Shashank Tiwari</div>
   </div>
 
-  <!-- RIGHT IMAGE -->
   <div class="auth-right">
-   <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80">
-
+    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80">
   </div>
-
 </div>
 
-  <div id="message" class="hidden"></div>
+<div id="message" class="hidden"></div>
 
-
-<!-- Search Page -->
 <div class="container hidden" id="searchPage">
   <div class="header">
     <div class="logo">
       <h1><i class="fas fa-home"></i> FlatDekho</h1>
-      <p>Find a flat buddy, split the rent</p>
+      <p>Premium Flatmate Search</p>
     </div>
-    <div class="madeby">Made by Shashank Tiwari</div>
+    <div style="display:flex; gap:10px;">
+      <button onclick="showWatchlist()" style="width:auto; padding:10px 15px; background: rgba(255,255,255,0.1);"><i class="fas fa-star text-yellow-400"></i></button>
+      <button onclick="logout()" style="width:auto; padding:10px 15px; background: #ef4444;"><i class="fas fa-sign-out-alt"></i></button>
+    </div>
   </div>
 
-  <nav style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-    <div></div>
-    <div>
-      <button onclick="showWatchlist()" style="width:auto;padding:8px 12px;margin-right:10px;"><i class="fas fa-star"></i> Watchlist</button>
-      <button onclick="logout()" style="width:auto;padding:8px 12px;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+  <div style="margin-bottom: 30px;">
+    <h3>Hello, <span id="userName" style="color: var(--primary);">User</span>!</h3>
+    <div style="display:flex; gap:10px;">
+      <input type="text" id="location" placeholder="Search Location (e.g., Alpha 1)" style="margin:0;" />
+      <button onclick="searchFlats()" style="width: 150px; margin:0;">Search</button>
     </div>
-  </nav>
-
-  <h2><i class="fas fa-search"></i> Search Flats</h2>
-  <p>Welcome: <span id="userName"></span></p>
-  <input type="text" id="location" placeholder="Location (e.g., Alpha 1)" />
-  <button onclick="searchFlats()" id="searchBtn">Search</button>
+  </div>
 
   <div id="result"></div>
 
   <div id="watchlist" class="hidden">
-    <h3>Your Watchlist (Flats You're Interested In)</h3>
+    <h3 style="border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">Your Watchlist</h3>
     <div id="watchlistContent"></div>
   </div>
 </div>
 
 <script>
+// --- SABHI ORIGINAL LOGIC FUNCTIONS START ---
 const flatsData = {
   "Alpha 1":[
     {id:1,type:"1BHK",price:5000,description:"Cozy 1BHK flat near market",image:"https://paramountgroup.co.in/upload/412b21794fe05956f7de1182026a19e9.jpg"},
@@ -206,10 +218,6 @@ function showMessage(text,type){
   setTimeout(()=>msg.classList.add('hidden'),3000);
 }
 
-
-
-
-
 function searchFlats(){
   const loc=document.getElementById('location').value.trim().toLowerCase();
   const resultDiv=document.getElementById('result');
@@ -222,7 +230,7 @@ function searchFlats(){
       card.innerHTML=`
         <img src="${flat.image}" alt="${flat.type}" />
         <h3>${flat.type} - ₹${flat.price}/month</h3>
-        <p>${flat.description}</p>
+        <p style="color: var(--text-dim);">${flat.description}</p>
         <button onclick="addInterest(${flat.id})">Express Interest</button>
       `;
       const interests=getInterests();
@@ -267,7 +275,7 @@ function showWatchlist(){
           <img src="${flat.image}" alt="${flat.type}" />
           <h3>${flat.type} - ₹${flat.price}/month</h3>
           <p>${flat.description}</p>
-          <p>You are interested in this flat.</p>
+          <p style="color:#4ade80;">You are interested in this flat.</p>
         `;
         content.appendChild(card);
       }
@@ -278,17 +286,17 @@ function showWatchlist(){
 
 function logout() {
   auth.signOut().then(() => {
-    localStorage.clear();  // Extra info clear
-    location.reload();     // Login page wapas show
+    localStorage.clear();
+    location.reload();
   }).catch((error) => {
     alert(error.message);
   });
 }
-
-
-
+// --- ORIGINAL LOGIC ENDS ---
 </script>
+
 <script>
+// Firebase Config (Original)
 const firebaseConfig = {
   apiKey: "AIzaSyAee6rfxqMkItbkoypdtuKPoeO7Ps8R1vw",
   authDomain: "flatdekhoo-93711.firebaseapp.com",
@@ -299,41 +307,27 @@ const firebaseConfig = {
   measurementId: "G-49HSRF59D0"
 };
 
-// ✅ Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-// ✅ AUTH STATE CONTROLLER (ONLY ONE PLACE)
 auth.onAuthStateChanged((user) => {
-
-  document.body.classList.remove("auth"); // pehle hatao
-
+  document.body.classList.remove("auth");
   document.getElementById('loginPage').classList.add('hidden');
   document.getElementById('searchPage').classList.add('hidden');
 
   if (user) {
     document.getElementById('searchPage').classList.remove('hidden');
-    document.getElementById('userName').innerText =
-      localStorage.getItem("userName") || "User";
+    document.getElementById('userName').innerText = localStorage.getItem("userName") || "User";
   } else {
-    document.body.classList.add("auth"); // ✅ sirf login pe center
+    document.body.classList.add("auth");
     document.getElementById('loginPage').classList.remove('hidden');
   }
 });
 
-</script>
-
-
-  
-<script>
 function clearInputs(){
-  document.querySelectorAll(
-    "#signinForm input, #signupForm input"
-  ).forEach(input => input.value = "");
+  document.querySelectorAll("#signinForm input, #signupForm input").forEach(input => input.value = "");
 }
 
-  
-  // 🔹 Tab Switching
 function showSignIn(){
   document.getElementById('signinForm').classList.remove('hidden');
   document.getElementById('signupForm').classList.add('hidden');
@@ -342,102 +336,59 @@ function showSignIn(){
 }
 
 function showSignUp(){
-  clearInputs(); // 🔥 ADD THIS
+  clearInputs();
   document.getElementById('signinForm').classList.add('hidden');
   document.getElementById('signupForm').classList.remove('hidden');
   document.getElementById('signUpTab').classList.add('active');
   document.getElementById('signInTab').classList.remove('active');
 }
 
-
-// 🔹 Sign Up
 function signUp(){
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value.trim();
 
-  if(!name || !phone || !email || !password){
-    alert("All fields are required");
-    return;
-  }
+  if(!name || !phone || !email || !password){ alert("All fields are required"); return; }
 
   auth.createUserWithEmailAndPassword(email, password)
     .then(() => {
-      // 🔥 Save locally (NO Firestore)
       localStorage.setItem("userName", name);
       localStorage.setItem("userPhone", phone);
       localStorage.setItem("userEmail", email);
-
       alert("Account created successfully. Please Sign In.");
       showSignIn();
     })
     .catch((error) => {
-      if(error.code === "auth/email-already-in-use"){
-        alert("Account already exists. Please Sign In.");
-        showSignIn();
-      } else {
-        alert(error.message);
-      }
+      if(error.code === "auth/email-already-in-use"){ alert("Account already exists. Please Sign In."); showSignIn(); } 
+      else { alert(error.message); }
     });
 }
 
-
-// 🔹 Sign In
 function signIn(){
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value.trim();
-
-  if(!email || !password){
-    alert("Email and password required");
-    return;
-  }
+  if(!email || !password){ alert("Email and password required"); return; }
 
   auth.signInWithEmailAndPassword(email, password)
     .then(() => {
-
-      // 📱 phone missing ho to login ke baad pucho
       if(!localStorage.getItem("userPhone")){
         const phone = prompt("Enter your WhatsApp number");
-        if(phone){
-          localStorage.setItem("userPhone", phone);
-        }
+        if(phone) localStorage.setItem("userPhone", phone);
       }
-
       document.body.classList.remove("auth");
-
-      document.getElementById('userName').innerText =
-        localStorage.getItem("userName") || "User";
+      document.getElementById('userName').innerText = localStorage.getItem("userName") || "User";
     })
-    .catch((error) => {
-      alert(error.message);
-    });
+    .catch((error) => { alert(error.message); });
 }
 
-
-
-</script>
-  <script>
-
-   function forgotPassword(){
+function forgotPassword(){
   const email = document.getElementById('loginEmail').value.trim();
-
-  if(!email){
-    alert("Please enter your Gmail first");
-    return;
-  }
-
+  if(!email){ alert("Please enter your Gmail first"); return; }
   auth.sendPasswordResetEmail(email)
-    .then(() => {
-      alert("Password reset email sent. Check your inbox.");
-    })
-    .catch((error) => {
-      alert(error.message);
-    });
+    .then(() => { alert("Password reset email sent. Check your inbox."); })
+    .catch((error) => { alert(error.message); });
 }
- 
-    
-  </script>
+</script>
 </body>
-</html> btao isme exact kya fix krna h
-
+</html>
