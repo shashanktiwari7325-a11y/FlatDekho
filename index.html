@@ -395,14 +395,25 @@ function signIn(){
 
   auth.signInWithEmailAndPassword(email, password)
     .then(() => {
-     
+
+      // 📱 phone missing ho to login ke baad pucho
+      if(!localStorage.getItem("userPhone")){
+        const phone = prompt("Enter your WhatsApp number");
+        if(phone){
+          localStorage.setItem("userPhone", phone);
+        }
+      }
+
+      document.body.classList.remove("auth");
+
       document.getElementById('userName').innerText =
-        localStorage.getItem("userName");
+        localStorage.getItem("userName") || "User";
     })
     .catch((error) => {
       alert(error.message);
     });
 }
+
 
 
 </script>
@@ -429,3 +440,4 @@ function signIn(){
   </script>
 </body>
 </html> btao isme exact kya fix krna h
+
