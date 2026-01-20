@@ -112,7 +112,7 @@ body.auth {
 
     <div class="header">
       <div class="logo">
-        <h1><i class="fas fa-home"></i>FlatDekho</h1>
+        <h1><i class="fas fa-home"></i> FlatDekho</h1>
         <p>Find a flat buddy, split the rent</p>
       </div>
       <div class="madeby">Made by Shashank Tiwari</div>
@@ -240,41 +240,14 @@ function searchFlats(){
 }
 
 function addInterest(flatId){
-
-  // 🔐 Firebase login check (REAL AUTH)
-  if (!auth.currentUser) {
-    alert("Login first");
-    return;
-  }
-
-  const name = localStorage.getItem('userName') || "User";
-  let phone = localStorage.getItem('userPhone');
-
-  // 📱 phone missing ho to ek baar puch lo
-  if(!phone){
-    phone = prompt("Enter WhatsApp number to continue");
-    if(!phone){
-      alert("Phone number required");
-      return;
-    }
-    localStorage.setItem("userPhone", phone);
-  }
-
-  const interests = getInterests();
-  if(!interests[flatId]) interests[flatId] = [];
-
-  if(interests[flatId].some(u => u.phone === phone)){
-    showMessage("Already expressed interest","error");
-    return;
-  }
-
-  interests[flatId].push({ name, phone });
-  localStorage.setItem('interests', JSON.stringify(interests));
-
-  showMessage("Interest added","success");
-  searchFlats();
+  const name=localStorage.getItem('userName'); const phone=localStorage.getItem('userPhone');
+  if(!name||!phone){alert("Login first");return;}
+  const interests=getInterests();
+  if(!interests[flatId]) interests[flatId]=[];
+  if(interests[flatId].some(u=>u.phone===phone)){showMessage("Already expressed interest","error");return;}
+  interests[flatId].push({name,phone}); localStorage.setItem('interests',JSON.stringify(interests));
+  showMessage("Interest added","success"); searchFlats();
 }
-
 
 function getInterests(){ return localStorage.getItem('interests')?JSON.parse(localStorage.getItem('interests')):{} }
 
@@ -421,23 +394,11 @@ function signIn(){
   }
 
   auth.signInWithEmailAndPassword(email, password)
-    ..then(() => {
-
-  if(!localStorage.getItem("userPhone")){
-    const phone = prompt("Enter your WhatsApp number");
-    if(phone){
-      localStorage.setItem("userPhone", phone);
-    } else {
-      alert("Phone number required to express interest");
-    }
-  }
-
-  document.body.classList.remove("auth");
-
-  document.getElementById('userName').innerText =
-    localStorage.getItem("userName") || "User";
-})
-
+    .then(() => {
+     
+      document.getElementById('userName').innerText =
+        localStorage.getItem("userName");
+    })
     .catch((error) => {
       alert(error.message);
     });
@@ -467,9 +428,4 @@ function signIn(){
     
   </script>
 </body>
-</html> 
-
-
-
-
-
+</html> btao isme exact kya fix krna h
