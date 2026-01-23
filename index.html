@@ -218,9 +218,10 @@ const flatsData = {
 Meals + WiFi + AC + Furnished Rooms  
 Near Jagat Farm & Knowledge Park 3`,
       image:"https://images.unsplash.com/photo-1598928506311-c55ded91a20c",
-      video: "https://drive.google.com/uc?export=download&id=1WbLUEDTQyO9iCKM7apRhdeoLCUlhxwYi"
+      video: "https://drive.google.com/uc?export=download&id=1WbLUEDTQyO9iCKM7apRhdeoLCUlhxwYi",
 
-      facilities:[
+facilities:[
+
         "Breakfast, Lunch, Dinner",
         "Wi-Fi",
         "Washing Machine",
@@ -319,7 +320,12 @@ function showWatchlist(){
   for(const fid in interests){
     if(interests[fid].some(u=>u.phone===phone)){
       has=true;
-      const flat=flatsData["Alpha 1"].find(f=>f.id==fid);
+    let flat = null;
+for (const area in flatsData) {
+  flat = flatsData[area].find(f => f.id == fid);
+  if (flat) break;
+}
+
       if(flat){
         const card=document.createElement('div'); card.className='flat-card';
         card.innerHTML=`
@@ -443,6 +449,7 @@ function forgotPassword(){
 </script>
 </body>
 </html>
+
 
 
 
