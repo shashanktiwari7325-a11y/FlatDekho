@@ -206,9 +206,36 @@ const flatsData = {
   "Alpha 1":[
     {id:1,type:"1BHK",price:5000,description:"Cozy 1BHK flat near market",image:"https://paramountgroup.co.in/upload/412b21794fe05956f7de1182026a19e9.jpg"},
     {id:2,type:"2BHK",price:8000,description:"Spacious 2BHK flat with balcony",image:"https://images.nobroker.in/images/8a9f8803910d2f4001910d74e41b273e/8a9f8803910d2f4001910d74e41b273e_51108_579351_medium.jpg"},
-    {id:3,type:"1BHK",price:5500,description:"Modern 1BHK with gym access",image:"https://th.bing.com/th/id/R.53b99d369125e3befc97d14ce8970838?rik=2wxGXPYOXW%2bgqg&riu=http%3a%2f%2fwww.parasnoida.in%2fblogs%2fwp-content%2fuploads%2f2022%2f09%2f1.jpg&ehk=EpF2Vi%2bn6NkieyTkrl4xj7KRhcgKrg1WXdMp8OWYY9c%3d&risl=&pid=ImgRaw&r=0"}
+    {id:3,type:"1BHK",price:5500,description:"Modern 1BHK with gym access",image:"https://th.bing.com/th/id/R.53b99d369125e3befc97d14ce8970838"}
+  ],
+
+  "Gamma 1":[
+    {
+      id:4,
+      type:"BOYS PG",
+      price:9000,
+      description:`Double Sharing ₹10,000–12,000 | Triple ₹10,000 | Four ₹9,000  
+Meals + WiFi + AC + Furnished Rooms  
+Near Jagat Farm & Knowledge Park 3`,
+      image:"https://images.unsplash.com/photo-1598928506311-c55ded91a20c",
+      video:"/mnt/data/WhatsApp Video 2026-01-23 at 4.23.16 PM.mp4",
+      facilities:[
+        "Breakfast, Lunch, Dinner",
+        "Wi-Fi",
+        "Washing Machine",
+        "Fridge",
+        "AC & Cooler",
+        "Geyser",
+        "Water Cooler",
+        "Kitchen",
+        "Bed, Table, Chair, Almira",
+        "Attached Washroom & Balcony"
+      ],
+      contact:["9235731973","9555093508"]
+    }
   ]
 };
+
 
 function showMessage(text,type){
   const msg=document.getElementById('message');
@@ -224,27 +251,33 @@ function searchFlats(){
   resultDiv.innerHTML='';
   document.getElementById('watchlist').classList.add('hidden');
 
-  if(loc==='alpha 1'){
-    flatsData["Alpha 1"].forEach(flat=>{
-      const card=document.createElement('div'); card.className='flat-card';
-      card.innerHTML=`
-        <img src="${flat.image}" alt="${flat.type}" />
-        <h3>${flat.type} - ₹${flat.price}/month</h3>
-        <p style="color: var(--text-dim);">${flat.description}</p>
-        <button onclick="addInterest(${flat.id})">Express Interest</button>
-      `;
-      const interests=getInterests();
-      if(interests[flat.id] && interests[flat.id].length>0){
-        const div=document.createElement('div'); div.className='interested-users';
-        div.innerHTML='<strong>Interested Users:</strong>';
-        interests[flat.id].forEach(u=>{
-          div.innerHTML+=`<p>${u.name} - <a href="https://wa.me/${u.phone}" target="_blank">WhatsApp</a></p>`;
-        });
-        card.appendChild(div);
-      }
-      resultDiv.appendChild(card);
-    });
-  }else{ resultDiv.innerHTML="<p>No flats found. Try 'Alpha 1'</p>"; }
+  let found = false;
+
+  for(const area in flatsData){
+    if(area.toLowerCase() === loc){
+      flatsData[area].forEach(flat=>{
+        const card=document.createElement('div');
+        card.className='flat-card';
+
+        card.innerHTML=`
+          <img src="${flat.image}" alt="${flat.type}" />
+          <h3>${flat.type} - ₹${flat.price}/month</h3>
+          <p style="color: var(--text-dim);">${flat.description}</p>
+          ${flat.video ? `<video controls style="width:100%; border-radius:14px; margin-top:10px;">
+            <source src="${flat.video}" type="video/mp4">
+          </video>` : ``}
+          <button onclick="addInterest(${flat.id})">Express Interest</button>
+        `;
+
+        resultDiv.appendChild(card);
+      });
+      found = true;
+    }
+  }
+
+  if(!found){
+    resultDiv.innerHTML="<p>No flats/PG found. Try Alpha 1 or Gamma 1</p>";
+  }
 }
 
 function addInterest(flatId){
@@ -392,4 +425,5 @@ function forgotPassword(){
 </script>
 </body>
 </html>
+
 
