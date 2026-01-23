@@ -208,35 +208,32 @@ const flatsData = {
     {id:2,type:"2BHK",price:8000,description:"Spacious 2BHK flat with balcony",image:"https://images.nobroker.in/images/8a9f8803910d2f4001910d74e41b273e/8a9f8803910d2f4001910d74e41b273e_51108_579351_medium.jpg"},
     {id:3,type:"1BHK",price:5500,description:"Modern 1BHK with gym access",image:"https://th.bing.com/th/id/R.53b99d369125e3befc97d14ce8970838"}
   ],
-
-  "Gamma 1":[
-    {
-      id:4,
-      type:"BOYS PG",
-      price:9000,
-      description:`Double Sharing ₹10,000–12,000 | Triple ₹10,000 | Four ₹9,000  
+"Gamma 1":[
+  {
+    id:4,
+    type:"BOYS PG",
+    price:9000,
+    description:`Double Sharing ₹10,000–12,000 | Triple ₹10,000 | Four ₹9,000  
 Meals + WiFi + AC + Furnished Rooms  
 Near Jagat Farm & Knowledge Park 3`,
-      image:"https://images.unsplash.com/photo-1598928506311-c55ded91a20c",
-      video: "https://drive.google.com/uc?export=download&id=1WbLUEDTQyO9iCKM7apRhdeoLCUlhxwYi",
+    image:"https://images.unsplash.com/photo-1598928506311-c55ded91a20c",
+    video:"https://drive.google.com/uc?export=download&id=1WbLUEDTQyO9iCKM7apRhdeoLCUlhxwYi",
+    facilities:[
+      "Breakfast, Lunch, Dinner",
+      "Wi-Fi",
+      "Washing Machine",
+      "Fridge",
+      "AC & Cooler",
+      "Geyser",
+      "Water Cooler",
+      "Kitchen",
+      "Bed, Table, Chair, Almira",
+      "Attached Washroom & Balcony"
+    ],
+    contact:["9235731973","9555093508"]
+  }
+]
 
-facilities:[
-
-        "Breakfast, Lunch, Dinner",
-        "Wi-Fi",
-        "Washing Machine",
-        "Fridge",
-        "AC & Cooler",
-        "Geyser",
-        "Water Cooler",
-        "Kitchen",
-        "Bed, Table, Chair, Almira",
-        "Attached Washroom & Balcony"
-      ],
-      contact:["9235731973","9555093508"]
-    }
-  ]
-};
 
 
 function showMessage(text,type){
@@ -248,56 +245,56 @@ function showMessage(text,type){
 }
 
 function searchFlats(){
-  const loc=document.getElementById('location').value.trim().toLowerCase();
-  const resultDiv=document.getElementById('result');
-  resultDiv.innerHTML='';
+  const loc = document.getElementById('location').value.trim().toLowerCase();
+  const resultDiv = document.getElementById('result');
+  resultDiv.innerHTML = '';
   document.getElementById('watchlist').classList.add('hidden');
 
   let found = false;
 
   for(const area in flatsData){
     if(area.toLowerCase() === loc){
+      found = true;
+
       flatsData[area].forEach(flat=>{
-        const card=document.createElement('div');
-        card.className='flat-card';
+        const card = document.createElement('div');
+        card.className = 'flat-card';
 
-        card.innerHTML=`
-        
+        card.innerHTML = `
+          ${flat.image ? `<img src="${flat.image}" style="width:100%;border-radius:16px;">` : ``}
+
           <h3>${flat.type} - ₹${flat.price}/month</h3>
-          <ul class="pg-details">
-  <li><strong>Location:</strong> Gamma 1</li>
-  <li><strong>Sharing & Rent:</strong>
-    <ul>
-      <li>Double: ₹10,000 – ₹12,000</li>
-      <li>Triple: ₹10,000</li>
-      <li>Four: ₹9,000 (Personal Kitchen)</li>
-    </ul>
-  </li>
-  <li><strong>Meals:</strong> Breakfast, Lunch, Dinner</li>
-  <li><strong>Amenities:</strong> Wi-Fi, AC, Cooler, Geyser, Fridge, Washing Machine</li>
-  <li><strong>Furnishing:</strong> Bed, Table, Chair, Almira</li>
-  <li><strong>Extra:</strong> Attached Washroom, Balcony, Special Chef</li>
-  <li><strong>Nearby:</strong> Jagat Farm (2 min), Knowledge Park 3 (5 min)</li>
-  <li><strong>Security:</strong> 1 Month Rent + 1 Month Security</li>
-  <li><strong>Contact:</strong> 9235731973, 9555093508</li>
-</ul>
 
-          ${flat.video ? `<video controls style="width:100%; border-radius:14px; margin-top:10px;">
-            <source src="${flat.video}" type="video/mp4">
-          </video>` : ``}
+          ${
+            flat.type === "BOYS PG"
+            ? `
+              <ul class="pg-details">
+                <li><strong>Location:</strong> Gamma 1</li>
+                <li><strong>Meals:</strong> Breakfast, Lunch, Dinner</li>
+                <li><strong>Amenities:</strong> Wi-Fi, AC, Cooler, Geyser</li>
+                <li><strong>Contact:</strong> 9235731973, 9555093508</li>
+              </ul>
+
+              <video controls style="width:100%;border-radius:14px;margin-top:10px;">
+                <source src="${flat.video}" type="video/mp4">
+              </video>
+            `
+            : `<p>${flat.description}</p>`
+          }
+
           <button onclick="addInterest(${flat.id})">Express Interest</button>
         `;
 
         resultDiv.appendChild(card);
       });
-      found = true;
     }
   }
 
   if(!found){
-    resultDiv.innerHTML="<p>No flats/PG found. Try Alpha 1 or Gamma 1</p>";
+    resultDiv.innerHTML = "<p>No flats/PG found. Try Alpha 1 or Gamma 1</p>";
   }
 }
+
 
 function addInterest(flatId){
   const name=localStorage.getItem('userName'); const phone=localStorage.getItem('userPhone');
@@ -449,6 +446,7 @@ function forgotPassword(){
 </script>
 </body>
 </html>
+
 
 
 
