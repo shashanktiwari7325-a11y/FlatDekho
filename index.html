@@ -431,19 +431,41 @@ function signUp(){
 function signIn(){
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value.trim();
-  if(!email || !password){ alert("Email and password required"); return; }
+
+  if(!email || !password){
+    alert("Email and password required");
+    return;
+  }
 
   auth.signInWithEmailAndPassword(email, password)
-    .then(() => {
+    .then((res) => {
+
+      // ✅ FIX 1: userName ensure karo
+      if(!localStorage.getItem("userName")){
+        const name = prompt("Enter your name");
+        if(name) localStorage.setItem("userName", name);
+      }
+
+      // ✅ FIX 2: userPhone ensure karo
       if(!localStorage.getItem("userPhone")){
         const phone = prompt("Enter your WhatsApp number");
         if(phone) localStorage.setItem("userPhone", phone);
       }
+
+      // UI switch
+      document.getElementById("loginPage").classList.add("hidden");
+      document.getElementById("searchPage").classList.remove("hidden");
       document.body.classList.remove("auth");
-      document.getElementById('userName').innerText = localStorage.getItem("userName") || "User";
+
+      document.getElementById("userName").innerText =
+        localStorage.getItem("userName");
+
     })
-    .catch((error) => { alert(error.message); });
+    .catch((error) => {
+      alert(error.message);
+    });
 }
+
 
 function forgotPassword(){
   const email = document.getElementById('loginEmail').value.trim();
@@ -455,6 +477,7 @@ function forgotPassword(){
 </script>
 </body>
 </html>
+
 
 
 
