@@ -374,9 +374,10 @@ auth.onAuthStateChanged((user) => {
   document.getElementById("loginPage").classList.add("hidden");
   document.getElementById("searchPage").classList.add("hidden");
 
-  if (user && localStorage.getItem("userPhone")) {
+  if (user) {
     document.getElementById("searchPage").classList.remove("hidden");
     document.body.classList.remove("auth");
+
     document.getElementById("userName").innerText =
       localStorage.getItem("userName") || "User";
   } else {
@@ -384,6 +385,8 @@ auth.onAuthStateChanged((user) => {
     document.body.classList.add("auth");
   }
 });
+
+
 
 
 
@@ -477,6 +480,7 @@ function forgotPassword(){
 </script>
 </body>
 </html>
+
 
 
 
