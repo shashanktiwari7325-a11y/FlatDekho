@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FlatDekho | Premium Living, Find a Flat Buddy</title>
+<title>FlatDekho | Premium Living</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 /* Aesthetic Variables */
@@ -23,102 +23,104 @@ body {
   font-family: 'Plus Jakarta Sans', sans-serif;
   background: radial-gradient(circle at top right, #1e1b4b, #0f172a);
   color: var(--text-white);
-  margin: 0;
-  padding: 0;
+  margin: 0; padding: 0;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* Auth Center Alignment */
 body.auth {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 0;
+  display: flex; justify-content: center; align-items: center;
 }
 
 /* Container & Glassmorphism */
 .container { 
-  max-width: 900px; 
+  max-width: 1000px; 
   margin: 40px auto; 
   background: var(--glass); 
   padding: 40px; 
-  border-radius: 24px; 
-  backdrop-filter: blur(16px);
+  border-radius: 32px; 
+  backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
-  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-  position: relative; 
+  box-shadow: 0 40px 100px -20px rgba(0,0,0,0.5);
 }
 
 .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-.logo h1 { margin: 0; font-size: 26px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 10px; }
-.logo h1 i { color: var(--primary); }
+.logo h1 { margin: 0; font-size: 28px; font-weight: 800; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 10px; }
 .logo p { margin: 0; font-size: 14px; color: var(--text-dim); }
-.madeby { font-size: 12px; color: var(--text-dim); opacity: 0.7; }
 
-/* Input Styles */
+/* Aesthetic Search Box */
+.search-wrapper {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  display: flex; gap: 10px; margin-top: 20px;
+}
+
 input {
-  width: 100%;
-  padding: 14px;
-  margin: 12px 0;
-  border-radius: 12px;
+  width: 100%; padding: 14px; border-radius: 12px;
   border: 1px solid var(--glass-border);
-  background: rgba(0,0,0,0.2);
-  color: white;
-  font-size: 16px;
-  box-sizing: border-box;
-  transition: 0.3s;
+  background: rgba(255,255,255,0.05); color: white;
+  font-size: 16px; transition: 0.3s;
 }
+.search-wrapper input { border: none; background: transparent; }
+input:focus { border-color: var(--primary); outline: none; background: rgba(255,255,255,0.1); }
 
-input:focus { border-color: var(--primary); outline: none; background: rgba(0,0,0,0.3); }
-
-/* Button Aesthetic */
+/* Buttons */
 button {
-  width: 100%;
-  padding: 14px;
-  margin: 14px 0;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 16px;
-  cursor: pointer;
-  border: none;
+  padding: 14px 25px; border-radius: 15px; font-weight: 600;
+  cursor: pointer; border: none;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: white;
-  transition: all 0.3s ease;
+  color: white; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4); }
+
+/* 1. FLOATING GLASS CARDS (GRID SYSTEM) */
+#result, #watchlistContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
 }
 
-button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4); }
-
-/* Login Container */
-.login-container {
-  width: 1000px; max-width: 95%; height: 620px;
-  display: flex; border-radius: 28px; overflow: hidden;
-  box-shadow: 0 40px 100px rgba(0,0,0,0.6);
-  background: var(--glass);
-  backdrop-filter: blur(20px);
+.flat-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
+  padding: 20px; border-radius: 24px;
+  transition: all 0.4s ease;
+  position: relative; overflow: hidden;
 }
 
-.auth-left { width: 45%; padding: 50px; background: rgba(15, 23, 42, 0.8); display: flex; flex-direction: column; justify-content: center; }
-.auth-right { width: 55%; overflow: hidden; }
+.flat-card:hover {
+  transform: translateY(-12px);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--primary);
+  box-shadow: 0 30px 60px -15px rgba(0,0,0,0.5);
+}
+
+.flat-card img {
+  width: 100%; height: 200px; object-fit: cover;
+  border-radius: 18px; margin-bottom: 15px;
+}
+
+.flat-card h3 { margin: 10px 0; font-size: 18px; font-weight: 700; color: #fff; }
+.flat-card p { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+
+.pg-details { list-style: none; padding: 0; font-size: 13px; color: var(--text-dim); }
+.pg-details li { margin-bottom: 5px; }
+
+/* Auth / Login */
+.login-container {
+  width: 1000px; max-width: 95%; height: 620px; display: flex;
+  border-radius: 32px; overflow: hidden; background: var(--glass);
+  backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+}
+.auth-left { width: 45%; padding: 50px; background: rgba(15, 23, 42, 0.85); display: flex; flex-direction: column; justify-content: center; }
+.auth-right { width: 55%; }
 .auth-right img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
 
-/* Flat Cards */
-.flat-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--glass-border);
-  padding: 20px; border-radius: 20px; margin: 20px 0;
-  transition: 0.3s ease;
-}
-
-.flat-card:hover { transform: scale(1.02); background: rgba(255,255,255,0.07); }
-.flat-card img { width: 100%; height: 250px; object-fit: cover; border-radius: 16px; margin-bottom: 15px; }
-
-.interested-users { margin-top: 15px; padding: 15px; background: rgba(99, 102, 241, 0.1); border-radius: 12px; border-left: 4px solid var(--primary); }
-.interested-users p { margin: 5px 0; font-size: 14px; }
-.interested-users a { color: #4ade80; text-decoration: none; font-weight: bold; }
-
-.tabs button { width: auto; padding: 10px 20px; background: transparent; border: 1px solid var(--glass-border); }
+.tabs button { width: auto; background: transparent; border: 1px solid var(--glass-border); margin-right: 8px; }
 .tabs button.active { background: var(--primary); border-color: var(--primary); }
 
 .hidden { display: none !important; }
@@ -140,12 +142,10 @@ button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99, 102
         <p>Find a flat buddy, split the rent</p>
       </div>
     </div>
-
     <div class="tabs" style="display:flex; gap:10px; margin-bottom:25px;">
       <button id="signInTab" class="active" onclick="showSignIn()">Sign In</button>
       <button id="signUpTab" onclick="showSignUp()">Sign Up</button>
     </div>
-
     <div id="signinForm">
       <h2 style="margin-bottom: 20px;">Welcome Back</h2>
       <input type="email" id="loginEmail" placeholder="Enter Gmail" />
@@ -153,7 +153,6 @@ button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99, 102
       <button onclick="signIn()">Sign In</button>
       <p style="text-align:center;"><a href="#" onclick="forgotPassword()" style="font-size:14px; color: var(--text-dim); text-decoration:none;">Forgot Password?</a></p>
     </div>
-
     <div id="signupForm" class="hidden">
       <h2 style="margin-bottom: 20px;">Create Account</h2>
       <input type="text" id="name" placeholder="Full Name" />
@@ -164,7 +163,6 @@ button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99, 102
     </div>
     <div class="madeby" style="margin-top:20px;">Made by Shashank Tiwari</div>
   </div>
-
   <div class="auth-right">
     <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80">
   </div>
@@ -175,66 +173,51 @@ button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99, 102
 <div class="container hidden" id="searchPage">
   <div class="header">
     <div class="logo">
-      <h1><i class="fas fa-home"></i> FlatDekho</h1>
+      <h1><i class="fas fa-house-chimney-user"></i> FlatDekho</h1>
       <p>Premium Flatmate Search</p>
     </div>
     <div style="display:flex; gap:10px;">
-      <button onclick="showWatchlist()" style="width:auto; padding:10px 15px; background: rgba(255,255,255,0.1);"><i class="fas fa-star text-yellow-400"></i></button>
-      <button onclick="logout()" style="width:auto; padding:10px 15px; background: #ef4444;"><i class="fas fa-sign-out-alt"></i></button>
+      <button onclick="showWatchlist()" style="width:auto; padding:10px 15px; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border);"><i class="fas fa-star text-yellow-400"></i></button>
+      <button onclick="logout()" style="width:auto; padding:10px 15px; background: #ef4444;"><i class="fas fa-power-off"></i></button>
     </div>
   </div>
 
-  <div style="margin-bottom: 30px;">
-    <h3>Hello, <span id="userName" style="color: var(--primary);">User</span>!</h3>
-    <div style="display:flex; gap:10px;">
-      <input type="text" id="location" placeholder="Search Location (e.g., Alpha 1)" style="margin:0;" />
-      <button onclick="searchFlats()" style="width: 150px; margin:0;">Search</button>
+  <div style="margin-bottom: 40px;">
+    <h2 style="margin-bottom: 5px; font-weight: 800;">Hello, <span id="userName" style="color: var(--primary);">User</span>! 👋</h2>
+    <p style="color: var(--text-dim); margin-top:0;">Search for your perfect flat or PG below.</p>
+    <div class="search-wrapper">
+      <i class="fas fa-map-marker-alt" style="padding: 15px; color: var(--primary);"></i>
+      <input type="text" id="location" placeholder="Search Location (e.g., Alpha 1, Gamma 1)" />
+      <button onclick="searchFlats()">Find Now</button>
     </div>
   </div>
 
   <div id="result"></div>
 
   <div id="watchlist" class="hidden">
-    <h3 style="border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">Your Watchlist</h3>
+    <h3 style="border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; margin-top: 50px;">Your Watchlist</h3>
     <div id="watchlistContent"></div>
   </div>
 </div>
 
 <script>
-// --- SABHI ORIGINAL LOGIC FUNCTIONS START ---
+// --- SABHI ORIGINAL LOGIC FUNCTIONS ---
 const flatsData = {
   "Alpha 1":[
     {id:1,type:"1BHK",price:5000,description:"Cozy 1BHK flat near market",image:"https://paramountgroup.co.in/upload/412b21794fe05956f7de1182026a19e9.jpg"},
     {id:2,type:"2BHK",price:8000,description:"Spacious 2BHK flat with balcony",image:"https://images.nobroker.in/images/8a9f8803910d2f4001910d74e41b273e/8a9f8803910d2f4001910d74e41b273e_51108_579351_medium.jpg"},
     {id:3,type:"1BHK",price:5500,description:"Modern 1BHK with gym access",image:"https://th.bing.com/th/id/R.53b99d369125e3befc97d14ce8970838"}
   ],
-"Gamma 1":[
-  {
-    id:4,
-    type:"BOYS PG",
-    price:9000,
-    description:`Double Sharing ₹10,000–12,000 | Triple ₹10,000 | Four ₹9,000  
-Meals + WiFi + AC + Furnished Rooms  
-Near Jagat Farm & Knowledge Park 3`,
-    image:"https://images.unsplash.com/photo-1598928506311-c55ded91a20c",
-    video:"https://drive.google.com/uc?export=download&id=1WbLUEDTQyO9iCKM7apRhdeoLCUlhxwYi",
-    facilities:[
-      "Breakfast, Lunch, Dinner",
-      "Wi-Fi",
-      "Washing Machine",
-      "Fridge",
-      "AC & Cooler",
-      "Geyser",
-      "Water Cooler",
-      "Kitchen",
-      "Bed, Table, Chair, Almira",
-      "Attached Washroom & Balcony"
-    ],
-    contact:["9235731973","9555093508"]
-  }
-]
-     };
-
+  "Gamma 1":[
+    {
+      id:4, type:"BOYS PG", price:9000,
+      description:`Double Sharing ₹10,000–12,000 | Triple ₹10,000 | Four ₹9,000. Meals + WiFi + AC + Furnished Rooms near Jagat Farm.`,
+      image:"https://images.unsplash.com/photo-1598928506311-c55ded91a20c",
+      video:"https://drive.google.com/uc?export=download&id=1WbLUEDTQyO9iCKM7apRhdeoLCUlhxwYi",
+      contact:["9235731973","9555093508"]
+    }
+  ]
+};
 
 function showMessage(text,type){
   const msg=document.getElementById('message');
@@ -249,52 +232,35 @@ function searchFlats(){
   const resultDiv = document.getElementById('result');
   resultDiv.innerHTML = '';
   document.getElementById('watchlist').classList.add('hidden');
-
   let found = false;
 
   for(const area in flatsData){
     if(area.toLowerCase() === loc){
       found = true;
-
       flatsData[area].forEach(flat=>{
         const card = document.createElement('div');
         card.className = 'flat-card';
-
         card.innerHTML = `
-          ${flat.image ? `<img src="${flat.image}" style="width:100%;border-radius:16px;">` : ``}
-
-          <h3>${flat.type} - ₹${flat.price}/month</h3>
-
-          ${
-            flat.type === "BOYS PG"
-            ? `
+          ${flat.image ? `<img src="${flat.image}">` : ``}
+          <h3>${flat.type} - ₹${flat.price}/mo</h3>
+          ${flat.type === "BOYS PG" ? `
               <ul class="pg-details">
-                <li><strong>Location:</strong> Gamma 1</li>
-                <li><strong>Meals:</strong> Breakfast, Lunch, Dinner</li>
-                <li><strong>Amenities:</strong> Wi-Fi, AC, Cooler, Geyser</li>
-                <li><strong>Contact:</strong> 9235731973, 9555093508</li>
+                <li><i class="fas fa-utensils"></i> Meals: 3 Times Included</li>
+                <li><i class="fas fa-wifi"></i> Free High Speed Wi-Fi</li>
+                <li><i class="fas fa-phone"></i> ${flat.contact.join(", ")}</li>
               </ul>
-
               <video controls style="width:100%;border-radius:14px;margin-top:10px;">
                 <source src="${flat.video}" type="video/mp4">
               </video>
-            `
-            : `<p>${flat.description}</p>`
-          }
-
-          <button onclick="addInterest(${flat.id})">Express Interest</button>
+            ` : `<p>${flat.description}</p>`}
+          <button style="width:100%; margin-top:15px;" onclick="addInterest(${flat.id})">Express Interest</button>
         `;
-
         resultDiv.appendChild(card);
       });
     }
   }
-
-  if(!found){
-    resultDiv.innerHTML = "<p>No flats/PG found. Try Alpha 1 or Gamma 1</p>";
-  }
+  if(!found) resultDiv.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>No flats/PG found. Try 'Alpha 1' or 'Gamma 1'</p>";
 }
-
 
 function addInterest(flatId){
   const name=localStorage.getItem('userName'); const phone=localStorage.getItem('userPhone');
@@ -303,7 +269,7 @@ function addInterest(flatId){
   if(!interests[flatId]) interests[flatId]=[];
   if(interests[flatId].some(u=>u.phone===phone)){showMessage("Already expressed interest","error");return;}
   interests[flatId].push({name,phone}); localStorage.setItem('interests',JSON.stringify(interests));
-  showMessage("Interest added","success"); searchFlats();
+  showMessage("Interest added","success");
 }
 
 function getInterests(){ return localStorage.getItem('interests')?JSON.parse(localStorage.getItem('interests')):{} }
@@ -317,44 +283,34 @@ function showWatchlist(){
   for(const fid in interests){
     if(interests[fid].some(u=>u.phone===phone)){
       has=true;
-    let flat = null;
-for (const area in flatsData) {
-  flat = flatsData[area].find(f => f.id == fid);
-  if (flat) break;
-}
-
+      let flat = null;
+      for (const area in flatsData) {
+        flat = flatsData[area].find(f => f.id == fid);
+        if (flat) break;
+      }
       if(flat){
         const card=document.createElement('div'); card.className='flat-card';
         card.innerHTML=`
-          <img src="${flat.image}" alt="${flat.type}" />
-          <h3>${flat.type} - ₹${flat.price}/month</h3>
+          <img src="${flat.image}" />
+          <h3>${flat.type} - ₹${flat.price}</h3>
           <p>${flat.description}</p>
-          <p style="color:#4ade80;">You are interested in this flat.</p>
+          <p style="color:#4ade80; font-weight:bold;">Interested ✅</p>
         `;
         content.appendChild(card);
       }
     }
   }
-  if(!has) content.innerHTML="<p>You have not expressed interest in any flats yet.</p>";
+  if(!has) content.innerHTML="<p style='grid-column: 1/-1; text-align:center;'>No items in watchlist yet.</p>";
 }
 
 function logout() {
   auth.signOut().then(() => {
-
-    localStorage.clear(); // isme isLoggedIn bhi clear ho jayega
-
-    document.getElementById("searchPage").classList.add("hidden");
-    document.getElementById("loginPage").classList.remove("hidden");
-    document.body.classList.add("auth");
+    localStorage.clear();
+    location.reload();
   });
 }
 
-
-// --- ORIGINAL LOGIC ENDS ---
-</script>
-
-<script>
-// Firebase Config (Original)
+// Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyAee6rfxqMkItbkoypdtuKPoeO7Ps8R1vw",
   authDomain: "flatdekhoo-93711.firebaseapp.com",
@@ -369,31 +325,17 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
 auth.onAuthStateChanged((user) => {
-
   document.getElementById("loginPage").classList.add("hidden");
   document.getElementById("searchPage").classList.add("hidden");
-
   if (user && localStorage.getItem("isLoggedIn") === "true") {
     document.getElementById("searchPage").classList.remove("hidden");
     document.body.classList.remove("auth");
-
-    document.getElementById("userName").innerText =
-      localStorage.getItem("userName") || "User";
-
+    document.getElementById("userName").innerText = localStorage.getItem("userName") || "User";
   } else {
     document.getElementById("loginPage").classList.remove("hidden");
     document.body.classList.add("auth");
   }
 });
-
-
-
-
-
-
-function clearInputs(){
-  document.querySelectorAll("#signinForm input, #signupForm input").forEach(input => input.value = "");
-}
 
 function showSignIn(){
   document.getElementById('signinForm').classList.remove('hidden');
@@ -401,93 +343,39 @@ function showSignIn(){
   document.getElementById('signInTab').classList.add('active');
   document.getElementById('signUpTab').classList.remove('active');
 }
-
 function showSignUp(){
-  clearInputs();
   document.getElementById('signinForm').classList.add('hidden');
   document.getElementById('signupForm').classList.remove('hidden');
   document.getElementById('signUpTab').classList.add('active');
   document.getElementById('signInTab').classList.remove('active');
 }
-
 function signUp(){
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value.trim();
-
   if(!name || !phone || !email || !password){ alert("All fields are required"); return; }
-
-  auth.createUserWithEmailAndPassword(email, password)
-    .then(() => {
-      localStorage.setItem("userName", name);
-      localStorage.setItem("userPhone", phone);
-      localStorage.setItem("userEmail", email);
-      alert("Account created successfully. Please Sign In.");
-      showSignIn();
-    })
-    .catch((error) => {
-      if(error.code === "auth/email-already-in-use"){ alert("Account already exists. Please Sign In."); showSignIn(); } 
-      else { alert(error.message); }
-    });
+  auth.createUserWithEmailAndPassword(email, password).then(() => {
+    localStorage.setItem("userName", name); localStorage.setItem("userPhone", phone);
+    alert("Account created! Please Sign In."); showSignIn();
+  }).catch(e => alert(e.message));
 }
-
 function signIn(){
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value.trim();
-
-  if(!email || !password){
-    alert("Email and password required");
-    return;
-  }
-
-  auth.signInWithEmailAndPassword(email, password)
-    .then((res) => {
-localStorage.setItem("isLoggedIn", "true"); // ✅ ADD THIS
-      // ✅ FIX 1: userName ensure karo
-      if(!localStorage.getItem("userName")){
-        const name = prompt("Enter your name");
-        if(name) localStorage.setItem("userName", name);
-      }
-
-      // ✅ FIX 2: userPhone ensure karo
-      if(!localStorage.getItem("userPhone")){
-        const phone = prompt("Enter your WhatsApp number");
-        if(phone) localStorage.setItem("userPhone", phone);
-      }
-
-      // UI switch
-      document.getElementById("loginPage").classList.add("hidden");
-      document.getElementById("searchPage").classList.remove("hidden");
-      document.body.classList.remove("auth");
-
-      document.getElementById("userName").innerText =
-        localStorage.getItem("userName");
-
-    })
-    .catch((error) => {
-      alert(error.message);
-    });
+  auth.signInWithEmailAndPassword(email, password).then(() => {
+    localStorage.setItem("isLoggedIn", "true");
+    if(!localStorage.getItem("userName")){
+      const n = prompt("Enter name"); if(n) localStorage.setItem("userName", n);
+    }
+    location.reload();
+  }).catch(e => alert(e.message));
 }
-
-
 function forgotPassword(){
   const email = document.getElementById('loginEmail').value.trim();
-  if(!email){ alert("Please enter your Gmail first"); return; }
-  auth.sendPasswordResetEmail(email)
-    .then(() => { alert("Password reset email sent. Check your inbox."); })
-    .catch((error) => { alert(error.message); });
+  if(!email){ alert("Enter Gmail first"); return; }
+  auth.sendPasswordResetEmail(email).then(() => alert("Reset email sent!")).catch(e => alert(e.message));
 }
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
