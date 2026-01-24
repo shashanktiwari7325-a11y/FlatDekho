@@ -192,6 +192,70 @@
         .success-message { color: #4ade80; text-align: center; margin: 10px; position: fixed; top: 20px; width: 100%; z-index: 100; }
         .error-message { color: #f87171; text-align: center; margin: 10px; position: fixed; top: 20px; width: 100%; z-index: 100; }
         .madeby-footer { margin-top: 20px; margin-bottom: 20px; font-size: 12px; color: var(--text-dim); }
+   
+    /* === PREMIUM SEARCH CARD UI === */
+.premium-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: 26px;
+    overflow: hidden;
+    transition: 0.4s;
+    position: relative;
+}
+
+.premium-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+}
+
+.card-media img, .card-media video {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+}
+
+.price-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.card-body {
+    padding: 18px;
+}
+
+.card-body h3 {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.amenities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.amenities span {
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.08);
+    color: var(--text-dim);
+}
+
+.card-body button {
+    margin-top: 16px;
+    width: 100%;
+}
+
     </style>
 
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -379,31 +443,65 @@
             }).catch(e => alert(e.message));
         }
 
-        function searchFlats(){
-            const loc = document.getElementById('location').value.trim().toLowerCase();
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = '';
-            document.getElementById('watchlist').classList.add('hidden');
-            let found = false;
+    function searchFlats(){
+    const loc = document.getElementById('location').value.trim().toLowerCase();
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = '';
+    document.getElementById('watchlist').classList.add('hidden');
 
-            for(const area in flatsData){
-                if(area.toLowerCase() === loc){
-                    found = true;
-                    flatsData[area].forEach(flat => {
-                        const card = document.createElement('div');
-                        card.className = 'flat-card';
-                        card.innerHTML = `
-                            <img src="${flat.image}">
-                            <h3>${flat.type} - ₹${flat.price}/mo</h3>
-                            ${flat.type === "BOYS PG" ? `<ul class="pg-details"><li>Meals & WiFi Included</li></ul>` : `<p>${flat.description}</p>`}
-                            <button style="width:100%; margin-top:15px;" onclick="addInterest(${flat.id})">Express Interest</button>
-                        `;
-                        resultDiv.appendChild(card);
-                    });
-                }
-            }
-            if(!found) resultDiv.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>No flats found. Try Alpha 1 or Gamma 1</p>";
+    let found = false;
+
+    for(const area in flatsData){
+        if(area.toLowerCase() === loc){
+            found = true;
+
+            flatsData[area].forEach(flat => {
+                const card = document.createElement('div');
+                card.className = 'premium-card';
+
+                const media = flat.video
+                    ? `<video src="${flat.video}" controls></video>`
+                    : `<img src="${flat.image}" />`;
+
+                card.innerHTML = `
+                    <div class="card-media">
+                        ${media}
+                        <div class="price-badge">₹${flat.price}/mo</div>
+                    </div>
+
+                    <div class="card-body">
+                        <h3>${flat.type}</h3>
+                        <p style="font-size:13px;color:var(--text-dim);">
+                            ${flat.description || 'Premium accommodation available'}
+                        </p>
+
+                        <div class="amenities">
+                            <span>📍 ${area}</span>
+                            <span>🛜 WiFi</span>
+                            <span>🍽 Meals</span>
+                            <span>❄️ AC</span>
+                        </div>
+
+                        <button class="submit-button"
+                            onclick="addInterest(${flat.id})">
+                            Express Interest
+                        </button>
+                    </div>
+                `;
+
+                resultDiv.appendChild(card);
+            });
         }
+    }
+
+    if(!found){
+        resultDiv.innerHTML = `
+            <p style="grid-column:1/-1;text-align:center;color:var(--text-dim)">
+                No flats found. Try Alpha 1 or Gamma 1
+            </p>`;
+    }
+}
+
 
         function addInterest(fid) {
             const interests = JSON.parse(localStorage.getItem('interests') || '{}');
@@ -431,3 +529,4 @@
     </script>
 </body>
 </html>
+
