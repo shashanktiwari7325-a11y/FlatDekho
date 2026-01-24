@@ -25,9 +25,34 @@
             color: var(--text-white);
             min-height: 100vh;
             display: flex;
+            flex-direction: column; /* Changed to column to stack header above form */
             justify-content: center;
             align-items: center;
             overflow-x: hidden;
+        }
+
+        /* --- LOGO HEADER SECTION --- */
+        .brand-header {
+            width: 850px;
+            margin-bottom: 25px;
+            padding-left: 10px;
+        }
+        .brand-logo {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .brand-logo i { color: #818cf8; -webkit-text-fill-color: initial; }
+        .brand-header p {
+            color: var(--text-dim);
+            font-size: 15px;
+            margin-top: 5px;
+            font-weight: 400;
         }
 
         /* --- AUTH WRAPPER (Sliding UI) --- */
@@ -60,7 +85,6 @@
         .signin { left: 0; }
         .signup { left: 50%; opacity: 0; pointer-events: none; }
 
-        /* Welcome Section Panels */
         .welcome-panel {
             position: absolute;
             width: 50%;
@@ -80,7 +104,6 @@
         .welcome-panel.signin { left: 50%; border-radius: 100px 0 0 100px; }
         .welcome-panel.signup { left: 0; transform: translateX(-100%); border-radius: 0 100px 100px 0; }
 
-        /* Form Elements */
         h2 { font-size: 28px; font-weight: 800; margin-bottom: 20px; }
         .field-wrapper { position: relative; margin-bottom: 15px; }
         
@@ -116,13 +139,12 @@
         .switch-link { text-align: center; margin-top: 15px; font-size: 14px; color: var(--text-dim); }
         .switch-link a { color: var(--primary); text-decoration: none; font-weight: 600; cursor: pointer; }
 
-        /* Sliding Animation Classes */
         .auth-wrapper.active .signin { transform: translateX(-100%); opacity: 0; }
         .auth-wrapper.active .signup { transform: translateX(-100%); opacity: 1; pointer-events: all; }
         .auth-wrapper.active .welcome-panel.signin { transform: translateX(100%); opacity: 0; }
         .auth-wrapper.active .welcome-panel.signup { transform: translateX(100%); }
 
-        /* --- SEARCH PAGE UI (Floating Glass Cards) --- */
+        /* --- SEARCH PAGE UI --- */
         .container { 
             max-width: 1000px; 
             width: 95%;
@@ -132,7 +154,6 @@
             border-radius: 32px; 
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            display: none; /* Initially Hidden */
         }
 
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
@@ -170,7 +191,7 @@
         .hidden { display: none !important; }
         .success-message { color: #4ade80; text-align: center; margin: 10px; position: fixed; top: 20px; width: 100%; z-index: 100; }
         .error-message { color: #f87171; text-align: center; margin: 10px; position: fixed; top: 20px; width: 100%; z-index: 100; }
-        .madeby-footer { position: fixed; bottom: 20px; font-size: 12px; color: var(--text-dim); }
+        .madeby-footer { margin-top: 20px; margin-bottom: 20px; font-size: 12px; color: var(--text-dim); }
     </style>
 
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -179,6 +200,13 @@
 <body>
 
     <div id="message" class="hidden"></div>
+
+    <div class="brand-header" id="brandHeader">
+        <div class="brand-logo">
+            <i class="fas fa-house-chimney-user"></i> FlatDekho
+        </div>
+        <p>Find a flat buddy, split the rent</p>
+    </div>
 
     <div class="auth-wrapper" id="authUI">
         <div class="credentials-panel signin">
@@ -270,7 +298,7 @@
             document.getElementById('authUI').classList.toggle('active');
         }
 
-        // FIREBASE LOGIC (Original)
+        // FIREBASE LOGIC
         const firebaseConfig = {
             apiKey: "AIzaSyAee6rfxqMkItbkoypdtuKPoeO7Ps8R1vw",
             authDomain: "flatdekhoo-93711.firebaseapp.com",
@@ -304,10 +332,12 @@
         auth.onAuthStateChanged((user) => {
             if (user && localStorage.getItem("isLoggedIn") === "true") {
                 document.getElementById("authUI").classList.add("hidden");
+                document.getElementById("brandHeader").classList.add("hidden"); // Hide header when logged in
                 document.getElementById("searchPage").classList.remove("hidden");
                 document.getElementById("userName").innerText = localStorage.getItem("userName") || "User";
             } else {
                 document.getElementById("authUI").classList.remove("hidden");
+                document.getElementById("brandHeader").classList.remove("hidden"); // Show header on login screen
                 document.getElementById("searchPage").classList.add("hidden");
             }
         });
