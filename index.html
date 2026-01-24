@@ -340,16 +340,15 @@ for (const area in flatsData) {
 
 function logout() {
   auth.signOut().then(() => {
-    localStorage.clear();
+
+    localStorage.clear(); // isme isLoggedIn bhi clear ho jayega
 
     document.getElementById("searchPage").classList.add("hidden");
     document.getElementById("loginPage").classList.remove("hidden");
     document.body.classList.add("auth");
-
-  }).catch((error) => {
-    alert(error.message);
   });
 }
+
 
 // --- ORIGINAL LOGIC ENDS ---
 </script>
@@ -374,17 +373,19 @@ auth.onAuthStateChanged((user) => {
   document.getElementById("loginPage").classList.add("hidden");
   document.getElementById("searchPage").classList.add("hidden");
 
-  if (user) {
+  if (user && localStorage.getItem("isLoggedIn") === "true") {
     document.getElementById("searchPage").classList.remove("hidden");
     document.body.classList.remove("auth");
 
     document.getElementById("userName").innerText =
       localStorage.getItem("userName") || "User";
+
   } else {
     document.getElementById("loginPage").classList.remove("hidden");
     document.body.classList.add("auth");
   }
 });
+
 
 
 
@@ -442,7 +443,7 @@ function signIn(){
 
   auth.signInWithEmailAndPassword(email, password)
     .then((res) => {
-
+localStorage.setItem("isLoggedIn", "true"); // ✅ ADD THIS
       // ✅ FIX 1: userName ensure karo
       if(!localStorage.getItem("userName")){
         const name = prompt("Enter your name");
@@ -480,6 +481,7 @@ function forgotPassword(){
 </script>
 </body>
 </html>
+
 
 
 
